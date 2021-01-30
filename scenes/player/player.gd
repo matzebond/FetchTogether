@@ -104,6 +104,8 @@ func _on_ItemPickup_area_exited(area):
     
 remotesync func pickup_item(item_path):
     var item = get_node(item_path)
+    if not item:
+        print("Pickup: %s does not exist. Item is null" % str(item_path))
     var parent = item.get_parent()
     
     # reset parent
@@ -118,6 +120,8 @@ remotesync func pickup_item(item_path):
     
 remotesync func drop_item(item_path):
     var item = get_node(item_path)
+    if not item:
+        print("Drop: %s does not exist. Item is null" % str(item_path))
     front_root.remove_child(item)
     world.add_child(item)
     current_item = null

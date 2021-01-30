@@ -84,6 +84,10 @@ func unregister_player(id):
     emit_signal("player_list_changed")
 
 remote func pre_start_game(spawn_points):
+    if get_tree().is_network_server():
+        randomize()
+        Rand.rpc("set_seed", randi())
+        
     # Change scene.
     var world = load("res://scenes/screens/world.tscn").instance()
     get_tree().get_root().add_child(world)

@@ -11,3 +11,9 @@ data_*/
 # build stuff
 /FetchTogether.*
 build/
+
+# Angelo-specific ignores
+PSD/
+
+# Matthias-specific ignores
+/raw/

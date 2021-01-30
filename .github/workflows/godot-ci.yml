@@ -2,9 +2,9 @@ name: "godot-ci export"
 
 on:
   push:
-    branches: [ main ]
+    branches: [ feature/ci ]
   pull_request:
-    branches: [ main ]
+    branches: [ feature/ci ]
 
 env:
   GODOT_VERSION: 3.2.3
