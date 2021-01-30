@@ -87,12 +87,10 @@ var items_in_range = []
 func _on_ItemPickup_area_entered(area):
     if area in get_tree().get_nodes_in_group("item"):
         items_in_range.append(area.get_parent())
-    print(items_in_range)
 
 func _on_ItemPickup_area_exited(area):
     if area in get_tree().get_nodes_in_group("item"):
         items_in_range.erase(area.get_parent())
-    print(items_in_range)
     
 remotesync func pickup_item(item_path):
     var item = get_node(item_path)

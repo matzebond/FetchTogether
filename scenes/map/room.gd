@@ -20,9 +20,9 @@ func _ready():
     var dir = Directory.new()
     if dir.open(ITEM_SCENE_PATH) == OK:
         dir.list_dir_begin()
-        var file_name = dir.get_next()
+        var file_name:String = dir.get_next()
         while file_name != "":
-            if !dir.current_is_dir() and file_name != ITEM_MAIN_SCENE:
+            if !dir.current_is_dir() and file_name != ITEM_MAIN_SCENE and file_name.ends_with(".tscn"):
                 item_scenes.append(load(ITEM_SCENE_PATH + file_name))
             file_name = dir.get_next()
     else:
