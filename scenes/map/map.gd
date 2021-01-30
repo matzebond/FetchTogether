@@ -70,7 +70,13 @@ func afterReady():
         room.queue_free()
     
     map.update_bitmask_region()
+    
+    var i = 0
+    for item in $ItemRoot.get_children():
+        item.name = "item_" + str(i)
+        i += 1
         
+    
     protoRoom.queue_free()
             
 func _set_player_num_debug(v):
