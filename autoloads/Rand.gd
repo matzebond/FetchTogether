@@ -11,3 +11,6 @@ func randf()->float:
     return _rng.randf()
 func randi()->int:
     return _rng.randi()
+
+remotesync func set_seed(seeed):
+    _rng.seed = seeed
