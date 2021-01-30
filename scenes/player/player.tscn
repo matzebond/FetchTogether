@@ -1,16 +1,19 @@
-[gd_scene load_steps=16 format=2]
+[gd_scene load_steps=19 format=2]
 
 [ext_resource path="res://scenes/player/player.gd" type="Script" id=1]
-[ext_resource path="res://assets/char/standing0.png" type="Texture" id=2]
 [ext_resource path="res://assets/montserrat.otf" type="DynamicFontData" id=3]
-[ext_resource path="res://assets/char/left0.png" type="Texture" id=4]
-[ext_resource path="res://assets/char/left3.png" type="Texture" id=5]
-[ext_resource path="res://assets/char/left1.png" type="Texture" id=6]
-[ext_resource path="res://assets/char/left2.png" type="Texture" id=7]
-[ext_resource path="res://assets/char/right3.png" type="Texture" id=8]
-[ext_resource path="res://assets/char/right0.png" type="Texture" id=9]
-[ext_resource path="res://assets/char/right2.png" type="Texture" id=10]
-[ext_resource path="res://assets/char/right1.png" type="Texture" id=11]
+[ext_resource path="res://assets/char/5_left_0003.png" type="Texture" id=4]
+[ext_resource path="res://assets/char/5_down_0001.png" type="Texture" id=5]
+[ext_resource path="res://assets/char/5_down_0003.png" type="Texture" id=6]
+[ext_resource path="res://assets/char/5_left_0001.png" type="Texture" id=7]
+[ext_resource path="res://assets/char/5_up_0000.png" type="Texture" id=8]
+[ext_resource path="res://assets/char/5_down_0000.png" type="Texture" id=9]
+[ext_resource path="res://assets/char/5_up_0002.png" type="Texture" id=10]
+[ext_resource path="res://assets/char/5_left_0000.png" type="Texture" id=11]
+[ext_resource path="res://assets/char/5_down_0002.png" type="Texture" id=12]
+[ext_resource path="res://assets/char/5_up_0003.png" type="Texture" id=13]
+[ext_resource path="res://assets/char/5_up_0001.png" type="Texture" id=14]
+[ext_resource path="res://assets/char/5_left_0002.png" type="Texture" id=15]
 
 [sub_resource type="CapsuleShape2D" id=1]
 radius = 23.8486
@@ -23,30 +26,20 @@ animations = [ {
 "name": "stunned",
 "speed": 5.0
 }, {
-"frames": [ ExtResource( 9 ), ExtResource( 11 ), ExtResource( 10 ), ExtResource( 8 ) ],
+"frames": [ ExtResource( 11 ), ExtResource( 7 ), ExtResource( 15 ), ExtResource( 4 ) ],
 "loop": true,
-"name": "walk_right",
-"speed": 5.0
+"name": "walk_side",
+"speed": 7.0
 }, {
-"frames": [ ExtResource( 4 ), ExtResource( 6 ), ExtResource( 7 ), ExtResource( 5 ) ],
-"loop": true,
-"name": "walk_left",
-"speed": 5.0
-}, {
-"frames": [  ],
-"loop": true,
-"name": "walk_up",
-"speed": 5.0
-}, {
-"frames": [  ],
+"frames": [ ExtResource( 9 ), ExtResource( 5 ), ExtResource( 12 ), ExtResource( 6 ) ],
 "loop": true,
 "name": "walk_down",
-"speed": 5.0
+"speed": 7.0
 }, {
-"frames": [ ExtResource( 2 ) ],
+"frames": [ ExtResource( 8 ), ExtResource( 14 ), ExtResource( 10 ), ExtResource( 13 ) ],
 "loop": true,
-"name": "standing",
-"speed": 5.0
+"name": "walk_up",
+"speed": 7.0
 } ]
 
 [sub_resource type="DynamicFont" id=3]
@@ -66,13 +59,13 @@ shape = SubResource( 1 )
 
 [node name="spriteAnim" type="AnimatedSprite" parent="."]
 frames = SubResource( 2 )
-animation = "walk_left"
+animation = "walk_down"
 
 [node name="label" type="Label" parent="."]
 margin_left = -82.0
-margin_top = -35.0
+margin_top = -83.0
 margin_right = 85.0
-margin_bottom = -14.0
+margin_bottom = -62.0
 size_flags_horizontal = 2
 size_flags_vertical = 0
 custom_fonts/font = SubResource( 3 )

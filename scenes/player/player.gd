@@ -1,6 +1,6 @@
 extends KinematicBody2D
 
-const MOTION_SPEED = 90.0
+const MOTION_SPEED = 220.0
 
 puppet var puppet_pos = Vector2()
 puppet var puppet_motion = Vector2()
@@ -64,7 +64,7 @@ func _physics_process(_delta):
         position = puppet_pos
         motion = puppet_motion
 
-    var new_anim = "standing"
+    var new_anim = null
     if motion.y < 0:
         new_anim = "walk_up"
         front_root.position = Vector2(0, -70)
@@ -72,18 +72,24 @@ func _physics_process(_delta):
         new_anim = "walk_down"
         front_root.position = Vector2(0, 70)
     elif motion.x < 0:
-        new_anim = "walk_left"
+        new_anim = "walk_side"
         front_root.position = Vector2(-70, 0)
+        $spriteAnim.flip_h = false
     elif motion.x > 0:
-        new_anim = "walk_right"
+        new_anim = "walk_side"
         front_root.position = Vector2(70, 0)
+        $spriteAnim.flip_h = true
     if stunned:
         new_anim = "stunned"
-        
 
-    if new_anim != current_anim:
+    if new_anim and new_anim != current_anim:
         current_anim = new_anim
         $spriteAnim.play(new_anim)
+    
+    var is_walking = motion != Vector2.ZERO
+    $spriteAnim.speed_scale = 1 if is_walking else 0
+    if !is_walking:
+        $spriteAnim.frame = 0
 
     move_and_slide(motion * MOTION_SPEED)
     if not is_network_master():
