@@ -63,6 +63,7 @@ func _server_disconnected():
 
 # Callback from SceneTree, only for clients (not server).
 func _connected_fail():
+    peer = null
     get_tree().set_network_peer(null) # Remove peer
     emit_signal("connection_failed")
     if OS.get_name() == "HTML5": # I think Web is not happy when failing
@@ -204,9 +205,10 @@ func end_game():
     if has_node("/root/World"): # Game is in progress.
         # End it
         get_node("/root/World").queue_free()
-
     emit_signal("game_ended")
     players.clear()
+    players_ready.clear()
+    get_tree().set_refuse_new_network_connections(false)
 
 
 func _ready():
