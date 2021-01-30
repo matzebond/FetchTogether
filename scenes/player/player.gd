@@ -22,6 +22,16 @@ sync func setup_bomb(bomb_name, pos, by_who):
 var current_anim = ""
 var prev_bombing = false
 var bomb_index = 0
+var current_item
+
+func _process(delta):
+    if is_network_master():
+        if Input.is_action_just_pressed("interact") && !current_item:
+            var item = get_closest_item()
+            if item:
+                current_item = item
+                items_in_range.erase(item)
+                item.hide()
 
 func _physics_process(_delta):
     var motion = Vector2()
@@ -103,7 +113,22 @@ func _on_ItemPickup_area_entered(area):
     if area in get_tree().get_nodes_in_group("item"):
         items_in_range.append(area.get_parent())
     print(items_in_range)
+
 func _on_ItemPickup_area_exited(area):
     if area in get_tree().get_nodes_in_group("item"):
         items_in_range.erase(area.get_parent())
     print(items_in_range)
+
+func get_closest_item():
+    if items_in_range.size() == 0:
+        return
+    else:
+        items_in_range.sort_custom(self, "sort_by_distance")
+        return items_in_range[0];
+
+func distanceTo(targetNode):
+    var a = Vector2(targetNode.position - puppet_pos)
+    return sqrt((a.x * a.x) + (a.y * a.y))
+        
+func sort_by_distance(a, b):
+    return distanceTo(a) > distanceTo(b)
