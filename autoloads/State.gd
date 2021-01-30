@@ -40,7 +40,9 @@ func _player_disconnected(id):
     if has_node("/root/World"): # Game is in progress.
         if get_tree().is_network_server():
             print("Player " + players[id] + " disconnected")
-            emit_signal("game_error", "Player " + players[id] + " disconnected")
+        unregister_player(id)
+        if len(players) == 0:
+            emit_signal("game_error", "All other Players disconnected")
             end_game()
     else: # Game is not in progress.
         # Unregister this player.
@@ -61,9 +63,11 @@ func _server_disconnected():
 
 # Callback from SceneTree, only for clients (not server).
 func _connected_fail():
+    peer = null
     get_tree().set_network_peer(null) # Remove peer
     emit_signal("connection_failed")
-    get_tree().quit()
+    if OS.get_name() == "HTML5": # I think Web is not happy when failing
+        get_tree().quit()
 
 
 # Lobby management functions.
@@ -118,6 +122,7 @@ remote func pre_start_game(spawn_points):
 
 
 remote func post_start_game():
+    get_tree().set_refuse_new_network_connections(true)
     get_tree().set_pause(false) # Unpause and unleash the game!
 
 
@@ -156,6 +161,7 @@ func join_game(ip, new_player_name):
             url = "ws://%s:%d" % [ip, DEFAULT_PORT]
         var error = peer.connect_to_url(url, PoolStringArray(), true);
         if error:
+            emit_signal("game_error", "Websocket connection error(%d)" % error )
             print("websocket connection error", error)
             get_tree().quit()
     else:
@@ -199,9 +205,10 @@ func end_game():
     if has_node("/root/World"): # Game is in progress.
         # End it
         get_node("/root/World").queue_free()
-
     emit_signal("game_ended")
     players.clear()
+    players_ready.clear()
+    get_tree().set_refuse_new_network_connections(false)
 
 
 func _ready():
@@ -224,3 +231,7 @@ func _process(delta):
     if peer and not get_tree().is_network_server() and (peer.get_connection_status() == NetworkedMultiplayerPeer.CONNECTION_CONNECTED ||
         peer.get_connection_status() == NetworkedMultiplayerPeer.CONNECTION_CONNECTING):
         peer.poll();
+        
+    if has_node("/root/World") and peer.get_connection_status() == NetworkedMultiplayerPeer.CONNECTION_DISCONNECTED:
+        emit_signal("game_error", "Got disconnected")
+        end_game()
