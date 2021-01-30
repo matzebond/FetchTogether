@@ -87,6 +87,7 @@ func _on_game_ended():
     
 
 func _on_game_error(errtxt):
+    print(errtxt)
     $ErrorDialog.dialog_text = errtxt
     $ErrorDialog.popup_centered_minsize()
     btnPlayOffline.disabled = false
