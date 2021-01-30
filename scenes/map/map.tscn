@@ -1,6 +1,8 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://scenes/map/tileset.tres" type="TileSet" id=1]
+[ext_resource path="res://scenes/items/cat.tscn" type="PackedScene" id=2]
+[ext_resource path="res://scenes/items/coffee.tscn" type="PackedScene" id=3]
 
 [node name="Map" type="Node2D"]
 
@@ -12,3 +14,9 @@ tile_data = PoolIntArray( -851984, 1, 0, -851983, 1, 0, -851982, 1, 0, -851981, 
 __meta__ = {
 "_edit_lock_": true
 }
+
+[node name="cat1" parent="." instance=ExtResource( 2 )]
+position = Vector2( 239.729, 239.729 )
+
+[node name="Node2D" parent="cat1" instance=ExtResource( 3 )]
+position = Vector2( 37.4577, 166.312 )
