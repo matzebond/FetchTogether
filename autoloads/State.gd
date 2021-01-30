@@ -40,7 +40,9 @@ func _player_disconnected(id):
     if has_node("/root/World"): # Game is in progress.
         if get_tree().is_network_server():
             print("Player " + players[id] + " disconnected")
-            emit_signal("game_error", "Player " + players[id] + " disconnected")
+        unregister_player(id)
+        if len(players) == 0:
+            emit_signal("game_error", "All other Players disconnected")
             end_game()
     else: # Game is not in progress.
         # Unregister this player.
@@ -158,6 +160,7 @@ func join_game(ip, new_player_name):
             url = "ws://%s:%d" % [ip, DEFAULT_PORT]
         var error = peer.connect_to_url(url, PoolStringArray(), true);
         if error:
+            emit_signal("game_error", "Websocket connection error(%d)" % error )
             print("websocket connection error", error)
             get_tree().quit()
     else:
@@ -226,3 +229,7 @@ func _process(delta):
     if peer and not get_tree().is_network_server() and (peer.get_connection_status() == NetworkedMultiplayerPeer.CONNECTION_CONNECTED ||
         peer.get_connection_status() == NetworkedMultiplayerPeer.CONNECTION_CONNECTING):
         peer.poll();
+        
+    if has_node("/root/World") and peer.get_connection_status() == NetworkedMultiplayerPeer.CONNECTION_DISCONNECTED:
+        emit_signal("game_error", "Got disconnected")
+        end_game()
