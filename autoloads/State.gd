@@ -31,7 +31,6 @@ signal game_error(what)
 # Callback from SceneTree.
 func _player_connected(id):
     # Registration of a client beings here, tell the connected player that we are here.
-    print("Player " + players[id] + " connected")
     if true_player:
         rpc_id(id, "register_player", player_name)
 
@@ -64,14 +63,15 @@ func _server_disconnected():
 func _connected_fail():
     get_tree().set_network_peer(null) # Remove peer
     emit_signal("connection_failed")
+    get_tree().quit()
 
 
 # Lobby management functions.
 
 remote func register_player(new_player_name):
     var id = get_tree().get_rpc_sender_id()
-    print(id)
     players[id] = new_player_name
+    print("Player " + players[id] + " connected")
     emit_signal("player_list_changed")
 
 
