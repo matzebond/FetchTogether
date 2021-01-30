@@ -16,11 +16,6 @@
 [resource]
 resource_local_to_scene = true
 animations = [ {
-"frames": [ ExtResource( 5 ), ExtResource( 7 ), ExtResource( 8 ), ExtResource( 1 ) ],
-"loop": true,
-"name": "walk_down",
-"speed": 7.0
-}, {
 "frames": [ ExtResource( 10 ), ExtResource( 2 ), ExtResource( 12 ), ExtResource( 4 ) ],
 "loop": true,
 "name": "walk_side",
@@ -29,5 +24,10 @@ animations = [ {
 "frames": [ ExtResource( 3 ), ExtResource( 11 ), ExtResource( 6 ), ExtResource( 9 ) ],
 "loop": true,
 "name": "walk_up",
+"speed": 7.0
+}, {
+"frames": [ ExtResource( 5 ), ExtResource( 7 ), ExtResource( 8 ), ExtResource( 1 ) ],
+"loop": true,
+"name": "walk_down",
 "speed": 7.0
 } ]

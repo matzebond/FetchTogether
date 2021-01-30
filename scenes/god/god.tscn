@@ -1,0 +1,35 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://assets/god/montypyhton-1.png" type="Texture" id=1]
+[ext_resource path="res://assets/god/montypyhton.png" type="Texture" id=2]
+[ext_resource path="res://assets/god/montypyhton-2.png" type="Texture" id=3]
+
+[sub_resource type="CapsuleShape2D" id=2]
+radius = 78.4357
+height = 22.4746
+
+[sub_resource type="SpriteFrames" id=1]
+animations = [ {
+"frames": [  ],
+"loop": true,
+"name": "idle",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 2 ), ExtResource( 2 ), ExtResource( 2 ), ExtResource( 1 ), ExtResource( 3 ), ExtResource( 1 ), ExtResource( 2 ) ],
+"loop": true,
+"name": "talk",
+"speed": 5.0
+} ]
+
+[node name="God" type="StaticBody2D"]
+
+[node name="shape" type="CollisionShape2D" parent="."]
+position = Vector2( 2.99664, -1.52588e-05 )
+rotation = 1.5708
+shape = SubResource( 2 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="."]
+frames = SubResource( 1 )
+animation = "talk"
+frame = 5
+playing = true

@@ -1,6 +1,7 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://scenes/map/map.tscn" type="PackedScene" id=1]
+[ext_resource path="res://scenes/god/god.tscn" type="PackedScene" id=2]
 [ext_resource path="res://score.gd" type="Script" id=3]
 [ext_resource path="res://assets/montserrat.otf" type="DynamicFontData" id=4]
 
@@ -94,4 +95,6 @@ text = "EXIT GAME"
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="God" parent="." instance=ExtResource( 2 )]
 [connection signal="pressed" from="Winner/ExitGame" to="Score" method="_on_exit_game_pressed"]
