@@ -21,6 +21,8 @@ func _ready():
 func _set_orientation(v):
     orientation = v
     
+    if !is_inside_tree(): return
+    
     var mapOriginal:TileMap = $TileMapOriginal
     var mapRotated:TileMap = $TileMapRotated
     
