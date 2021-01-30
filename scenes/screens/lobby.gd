@@ -25,7 +25,8 @@ func _ready():
     State.connect("game_ended", self, "_on_game_ended")
     State.connect("game_error", self, "_on_game_error")
     
-    default_ip = IP.resolve_hostname(url)
+    # default_ip = IP.resolve_hostname(url, 1) # does not work!!!
+    default_ip = "46.232.250.165"
     if not default_ip:
         btnPlayOnline.disabled = true
     
@@ -70,6 +71,7 @@ func _on_join_pressed(ip = null):
 func _on_connection_success():
     panelConnect.hide()
     panelPlayers.show()
+    refresh_lobby()
 
 
 func _on_connection_failed():

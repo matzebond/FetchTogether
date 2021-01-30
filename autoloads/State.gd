@@ -5,6 +5,9 @@ extends Node
 # https://en.wikipedia.org/wiki/List_of_TCP_and_UDP_port_numbers
 const DEFAULT_PORT = 10567
 
+
+const USE_WEBSOCKET = true
+
 # Max number of players.
 const MAX_PEERS = 12
 
@@ -130,15 +133,30 @@ remote func ready_to_start(id):
 
 func host_game(new_player_name):
     player_name = new_player_name
-    peer = NetworkedMultiplayerENet.new()
-    peer.create_server(DEFAULT_PORT, MAX_PEERS)
-    get_tree().set_network_peer(peer)
 
+    if USE_WEBSOCKET:
+        peer = WebSocketServer.new();
+        peer.listen(DEFAULT_PORT, PoolStringArray(), true);
+    else:
+        peer = NetworkedMultiplayerENet.new()
+        peer.create_server(DEFAULT_PORT, MAX_PEERS)
+    get_tree().set_network_peer(peer);
 
+    
 func join_game(ip, new_player_name):
     player_name = new_player_name
-    peer = NetworkedMultiplayerENet.new()
-    peer.create_client(ip, DEFAULT_PORT)
+    
+    if USE_WEBSOCKET:
+        print("try join websocket")
+        peer = WebSocketClient.new();
+        var url = "ws://%s:%d" % [ip, DEFAULT_PORT]
+        var error = peer.connect_to_url(url, PoolStringArray(), true);
+        if error:
+            print("websocket connection error", error)
+            get_tree().quit()
+    else:
+        peer = NetworkedMultiplayerENet.new()
+        peer.create_client(ip, DEFAULT_PORT)
     get_tree().set_network_peer(peer)
 
 
@@ -194,3 +212,11 @@ func _ready():
         print("I am a hosting only server on ")
         print(IP.get_local_addresses())
         host_game("Server")
+
+func _process(delta):
+    if peer and get_tree().is_network_server():
+        peer.poll();
+
+    if peer and not get_tree().is_network_server() and (peer.get_connection_status() == NetworkedMultiplayerPeer.CONNECTION_CONNECTED ||
+        peer.get_connection_status() == NetworkedMultiplayerPeer.CONNECTION_CONNECTING):
+        peer.poll();
