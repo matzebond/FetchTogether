@@ -26,27 +26,18 @@ func afterReady():
     
     main_room_size.x += MAIN_ROOM_WIDTH_EXPAND_PER_SIDE_ROOMS * roomsOnEachSide
     
-    
-    var roomRoot = $Rooms
-    
     var map:TileMap = $TileMap
     map.clear()
     
     var tileSize = map.cell_size
-    var tileWall = map.tile_set.find_tile_by_name("wall")
-    var tileFloor = map.tile_set.find_tile_by_name("floor")
+    var tile = map.tile_set.find_tile_by_name("autotile_wall")
     
     # Generate basic main room rectangle
     var posStart = Vector2(-floor(main_room_size.x / 2), -floor(main_room_size.y / 2))
     for y in range(main_room_size.y):
-        
-        for x in range(main_room_size.x):
-            
-            var tile = tileFloor
-            if y == 0 or x == 0 or y == main_room_size.y-1 or x == main_room_size.x-1:
-                tile = tileWall
-            
+        for x in range(main_room_size.x):            
             map.set_cell(posStart.x + x, posStart.y + y, tile)
+    
     
     # Gather room info
     var protoRoom = Room.instance()
@@ -69,36 +60,16 @@ func afterReady():
             orientation = protoRoom.Orientation.W
             
         rooms.append([Vector2(x, floor(yStart+y)), orientation])
-    
-    # Remove previous rooms
-    for prevRoom in roomRoot.get_children():
-        prevRoom.queue_free()
-    
 
     # Spawn new rooms
     for roomInfo in rooms:
         var room = Room.instance()
         room.orientation = roomInfo[1]
-        room.position = tileSize * roomInfo[0]
-        roomRoot.add_child(room)
-        
-        match roomInfo[1]:
-            room.Orientation.S:
-                map.set_cellv(roomInfo[0] + Vector2(-1, 1), tileFloor)
-                map.set_cellv(roomInfo[0] + Vector2(0, 1), tileFloor)
-                map.set_cellv(roomInfo[0] + Vector2(1, 1), tileFloor)
-            room.Orientation.N:
-                map.set_cellv(roomInfo[0] + Vector2(-1, -1), tileFloor)
-                map.set_cellv(roomInfo[0] + Vector2(0, -1), tileFloor)
-                map.set_cellv(roomInfo[0] + Vector2(1, -1), tileFloor)
-            room.Orientation.W:
-                map.set_cellv(roomInfo[0] + Vector2(1, -1), tileFloor)
-                map.set_cellv(roomInfo[0] + Vector2(1, 0), tileFloor)
-                map.set_cellv(roomInfo[0] + Vector2(1, 1), tileFloor)
-            room.Orientation.E:
-                map.set_cellv(roomInfo[0] + Vector2(-1, -1), tileFloor)
-                map.set_cellv(roomInfo[0] + Vector2(-1, 0), tileFloor)
-                map.set_cellv(roomInfo[0] + Vector2(-1, 1), tileFloor)
+        add_child(room)
+        room.addToMap(map, $ItemRoot, roomInfo[0])
+        room.queue_free()
+    
+    map.update_bitmask_region()
         
     protoRoom.queue_free()
             
