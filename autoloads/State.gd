@@ -83,11 +83,9 @@ func unregister_player(id):
     players.erase(id)
     emit_signal("player_list_changed")
 
-remote func pre_start_game(spawn_points):
-    if get_tree().is_network_server():
-        randomize()
-        Rand.rpc("set_seed", randi())
-        
+remote func pre_start_game(spawn_points, new_seed):
+    Rand.set_seed(new_seed)
+    
     # Change scene.
     var world = load("res://scenes/screens/world.tscn").instance()
     get_tree().get_root().add_child(world)
@@ -199,10 +197,13 @@ remote func begin_game():
         spawn_points[p] = spawn_point_idx
         spawn_point_idx += 1
     # Call to pre-start game with the spawn points.
+    
+    randomize() # seed
+    var new_seed = randi()
     for p in players:
-        rpc_id(p, "pre_start_game", spawn_points)
+        rpc_id(p, "pre_start_game", spawn_points, new_seed)
 
-    pre_start_game(spawn_points)
+    pre_start_game(spawn_points, new_seed)
 
 
 func end_game():

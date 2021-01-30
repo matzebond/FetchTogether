@@ -12,5 +12,8 @@ func randf()->float:
 func randi()->int:
     return _rng.randi()
 
-remotesync func set_seed(seeed):
+func set_seed(seeed):
+    _rng = RandomNumberGenerator.new()
     _rng.seed = seeed
+    print(seeed)
+    print(_rng.randi())
