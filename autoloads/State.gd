@@ -232,6 +232,6 @@ func _process(delta):
         peer.get_connection_status() == NetworkedMultiplayerPeer.CONNECTION_CONNECTING):
         peer.poll();
         
-    if has_node("/root/World") and peer.get_connection_status() == NetworkedMultiplayerPeer.CONNECTION_DISCONNECTED:
+    if has_node("/root/World") and (!peer or peer.get_connection_status() == NetworkedMultiplayerPeer.CONNECTION_DISCONNECTED):
         emit_signal("game_error", "Got disconnected")
         end_game()
