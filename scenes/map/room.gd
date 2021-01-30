@@ -15,10 +15,6 @@ func _ready():
     $TileMapOriginal.visible = false
     $TileMapRotated.visible = true
     
-    # Delete original map only in game!!!
-    if !Engine.editor_hint:
-        $TileMapOriginal.queue_free()
-    
     # Preload items
     item_scenes = []
     var dir = Directory.new()
@@ -33,6 +29,7 @@ func _ready():
         printerr("Room: Could not iterate " + ITEM_SCENE_PATH)
 
     _set_orientation(orientation)
+    
     
 func _set_orientation(v):
     orientation = v
@@ -71,7 +68,22 @@ func _set_orientation(v):
             itemRoot.add_child(item)
     else:
         print("Room: Could not spawn Items into room, there are none loaded")
+    
+    mapRotated.update_bitmask_region()
 
+func addToMap(map:TileMap, itemRoot:Node2D, pos:Vector2):
+    var mapRotated:TileMap = $TileMapRotated
+    for cell in mapRotated.get_used_cells():
+        map.set_cellv(pos + cell, mapRotated.get_cellv(cell))
+    
+    var tileSize = map.cell_size
+    for item in $Items.get_children():
+        #var itemPos = item.global_position
+        $Items.remove_child(item)
+        itemRoot.add_child(item)
+        item.position += pos * tileSize
+        #item.global_position = itemPos
+        
 
 func rotate_map_pos(map_pos:Vector2, orientation):
     match orientation:
