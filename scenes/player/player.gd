@@ -24,11 +24,16 @@ func _process(delta):
     if is_network_master():
         if Input.is_action_just_released("interact"):
             if !current_item:
-                var item = get_closest_item()
+                var item = get_closest_in(items_in_range)
                 if item:
                     rpc("pickup_item",item.get_path())
             else:
+                var item = current_item
                 rpc("drop_item")
+                
+                var drop_zone = get_closest_in(drop_zones_in_range)
+                if drop_zone:
+                    drop_zone.rpc("receive_item", item.get_path())
 
 func _physics_process(_delta):
     var motion = Vector2()
@@ -84,13 +89,18 @@ func set_player_name(new_name):
     get_node("label").set_text(new_name)
 
 var items_in_range = []
+var drop_zones_in_range = []
 func _on_ItemPickup_area_entered(area):
     if area in get_tree().get_nodes_in_group("item"):
         items_in_range.append(area.get_parent())
+    if area in get_tree().get_nodes_in_group("drop_zone"):
+        drop_zones_in_range.append(area.get_parent())
 
 func _on_ItemPickup_area_exited(area):
     if area in get_tree().get_nodes_in_group("item"):
         items_in_range.erase(area.get_parent())
+    if area in get_tree().get_nodes_in_group("drop_zone"):
+        drop_zones_in_range.erase(area.get_parent())
     
 remotesync func pickup_item(item_path):
     var item = get_node(item_path)
@@ -112,13 +122,14 @@ remotesync func drop_item():
     world.add_child(item)
     current_item = null
     item.position = position + front_root.position
+    
 
-func get_closest_item():
-    if items_in_range.size() == 0:
+func get_closest_in(arr:Array):
+    if arr.size() == 0:
         return
     else:
-        items_in_range.sort_custom(self, "sort_by_distance")
-        return items_in_range[0];
+        arr.sort_custom(self, "sort_by_distance")
+        return arr[0];
 
 func distanceTo(targetNode):
     var a = Vector2(targetNode.position - position)
