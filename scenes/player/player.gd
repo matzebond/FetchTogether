@@ -7,6 +7,8 @@ puppet var puppet_motion = Vector2()
 
 export var stunned = false
 
+onready var front_root = $frontRoot
+
 # Use sync because it will be called everywhere
 sync func setup_bomb(bomb_name, pos, by_who):
     var bomb = preload("res://scenes/player/bomb.tscn").instance()
@@ -15,6 +17,7 @@ sync func setup_bomb(bomb_name, pos, by_who):
     bomb.from_player = by_who
     # No need to set network master to bomb, will be owned by server by default
     get_node("../..").add_child(bomb)
+    
 
 var current_anim = ""
 var prev_bombing = false
@@ -57,15 +60,19 @@ func _physics_process(_delta):
     var new_anim = "standing"
     if motion.y < 0:
         new_anim = "walk_up"
+        front_root.position = Vector2(0, -70)
     elif motion.y > 0:
         new_anim = "walk_down"
+        front_root.position = Vector2(0, 70)
     elif motion.x < 0:
         new_anim = "walk_left"
+        front_root.position = Vector2(-70, 0)
     elif motion.x > 0:
         new_anim = "walk_right"
-
+        front_root.position = Vector2(70, 0)
     if stunned:
         new_anim = "stunned"
+        
 
     if new_anim != current_anim:
         current_anim = new_anim
@@ -90,3 +97,13 @@ func set_player_name(new_name):
 func _ready():
     stunned = false
     puppet_pos = position
+
+var items_in_range = []
+func _on_ItemPickup_area_entered(area):
+    if area in get_tree().get_nodes_in_group("item"):
+        items_in_range.append(area.get_parent())
+    print(items_in_range)
+func _on_ItemPickup_area_exited(area):
+    if area in get_tree().get_nodes_in_group("item"):
+        items_in_range.erase(area.get_parent())
+    print(items_in_range)

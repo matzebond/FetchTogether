@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=2]
+[gd_scene load_steps=16 format=2]
 
 [ext_resource path="res://scenes/player/player.gd" type="Script" id=1]
 [ext_resource path="res://assets/char/standing0.png" type="Texture" id=2]
@@ -13,19 +13,19 @@
 [ext_resource path="res://assets/char/right1.png" type="Texture" id=11]
 
 [sub_resource type="CapsuleShape2D" id=1]
-radius = 13.6599
-height = 30.2472
+radius = 23.8486
+height = 49.5959
 
 [sub_resource type="SpriteFrames" id=2]
 animations = [ {
 "frames": [  ],
 "loop": true,
-"name": "stunned",
+"name": "walk_down",
 "speed": 5.0
 }, {
 "frames": [  ],
 "loop": true,
-"name": "walk_down",
+"name": "stunned",
 "speed": 5.0
 }, {
 "frames": [ ExtResource( 2 ) ],
@@ -53,6 +53,9 @@ animations = [ {
 size = 14
 font_data = ExtResource( 3 )
 
+[sub_resource type="CircleShape2D" id=4]
+radius = 43.3705
+
 [node name="player" type="KinematicBody2D"]
 script = ExtResource( 1 )
 
@@ -78,3 +81,12 @@ __meta__ = {
 }
 
 [node name="camera" type="Camera2D" parent="."]
+
+[node name="frontRoot" type="Node2D" parent="."]
+
+[node name="ItemPickup" type="Area2D" parent="frontRoot"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="frontRoot/ItemPickup"]
+shape = SubResource( 4 )
+[connection signal="area_entered" from="frontRoot/ItemPickup" to="." method="_on_ItemPickup_area_entered"]
+[connection signal="area_exited" from="frontRoot/ItemPickup" to="." method="_on_ItemPickup_area_exited"]
