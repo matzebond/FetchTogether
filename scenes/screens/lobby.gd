@@ -91,7 +91,8 @@ func refresh_lobby():
     for p in players:
         listPlayers.add_item(p)
 
-    btnStart.disabled = not get_tree().is_network_server()
+    # btnStart.disabled = not get_tree().is_network_server()
+    btnStart.disabled = false
 
 func _on_start_pressed():
     State.begin_game()

@@ -148,8 +148,10 @@ func get_player_name():
     return player_name
 
 
-func begin_game():
-    assert(get_tree().is_network_server())
+remote func begin_game():
+    if not get_tree().is_network_server():
+        rpc_id(1, "begin_game")
+        return
 
     # Create a dictionary with peer id and respective spawn points, could be improved by randomizing.
     var spawn_points = {}
