@@ -16,6 +16,8 @@ font_data = ExtResource( 3 )
 radius = 43.3705
 
 [node name="player" type="KinematicBody2D"]
+z_index = 1
+z_as_relative = false
 script = ExtResource( 1 )
 
 [node name="spriteAnim" type="AnimatedSprite" parent="."]
@@ -45,6 +47,7 @@ __meta__ = {
 [node name="camera" type="Camera2D" parent="."]
 
 [node name="frontRoot" type="Node2D" parent="."]
+z_index = -1
 
 [node name="ItemPickup" type="Area2D" parent="frontRoot"]
 
