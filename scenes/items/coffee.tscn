@@ -12,8 +12,9 @@ animations = [ {
 "speed": 5.0
 } ]
 
-[sub_resource type="CircleShape2D" id=2]
-radius = 47.0239
+[sub_resource type="CapsuleShape2D" id=2]
+radius = 27.0508
+height = 36.0083
 
 [node name="Node2D" instance=ExtResource( 1 )]
 
@@ -21,4 +22,6 @@ radius = 47.0239
 frames = SubResource( 1 )
 
 [node name="CollisionShape2D" parent="pickupArea" index="0"]
+position = Vector2( -2, -3 )
+rotation = 0.897099
 shape = SubResource( 2 )
