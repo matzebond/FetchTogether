@@ -1,6 +1,6 @@
 [gd_scene load_steps=6 format=2]
 
-[ext_resource path="res://scenes/map/Map.tscn" type="PackedScene" id=1]
+[ext_resource path="res://scenes/map/map.tscn" type="PackedScene" id=1]
 [ext_resource path="res://scenes/map/rock.tscn" type="PackedScene" id=2]
 [ext_resource path="res://score.gd" type="Script" id=3]
 [ext_resource path="res://assets/montserrat.otf" type="DynamicFontData" id=4]
