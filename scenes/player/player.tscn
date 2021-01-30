@@ -45,7 +45,6 @@ __meta__ = {
 [node name="camera" type="Camera2D" parent="."]
 
 [node name="frontRoot" type="Node2D" parent="."]
-visible = false
 
 [node name="ItemPickup" type="Area2D" parent="frontRoot"]
 
