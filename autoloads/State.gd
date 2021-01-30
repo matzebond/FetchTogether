@@ -63,7 +63,8 @@ func _server_disconnected():
 func _connected_fail():
     get_tree().set_network_peer(null) # Remove peer
     emit_signal("connection_failed")
-    get_tree().quit()
+    if OS.get_name() == "HTML5": # I think Web is not happy when failing
+        get_tree().quit()
 
 
 # Lobby management functions.
@@ -118,6 +119,7 @@ remote func pre_start_game(spawn_points):
 
 
 remote func post_start_game():
+    get_tree().set_refuse_new_network_connections(true)
     get_tree().set_pause(false) # Unpause and unleash the game!
 
 
