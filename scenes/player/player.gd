@@ -17,7 +17,6 @@ sync func setup_bomb(bomb_name, pos, by_who):
     bomb.from_player = by_who
     # No need to set network master to bomb, will be owned by server by default
     get_node("../..").add_child(bomb)
-    
 
 var current_anim = ""
 var prev_bombing = false
@@ -26,12 +25,10 @@ var current_item
 
 func _process(delta):
     if is_network_master():
-        if Input.is_action_just_pressed("interact") && !current_item:
+        if Input.is_action_just_released("interact") && !current_item:
             var item = get_closest_item()
             if item:
-                current_item = item
-                items_in_range.erase(item)
-                item.hide()
+                rpc("pickup_item",item.get_path())
 
 func _physics_process(_delta):
     var motion = Vector2()
@@ -118,6 +115,20 @@ func _on_ItemPickup_area_exited(area):
     if area in get_tree().get_nodes_in_group("item"):
         items_in_range.erase(area.get_parent())
     print(items_in_range)
+    
+remotesync func pickup_item(item_path):
+    var item = get_node(item_path)
+    var parent = item.get_parent()
+    
+    # reset parent
+    if parent.get_parent().get("current_item") == item:
+        parent.get_parent().current_item = null
+
+    current_item = item
+    items_in_range.erase(item)
+    parent.remove_child(item)
+    front_root.add_child(item)
+    item.position = Vector2(0, 0)
 
 func get_closest_item():
     if items_in_range.size() == 0:
