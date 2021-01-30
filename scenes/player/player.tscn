@@ -12,11 +12,11 @@
 [ext_resource path="res://assets/char/right2.png" type="Texture" id=10]
 [ext_resource path="res://assets/char/right1.png" type="Texture" id=11]
 
-[sub_resource type="CapsuleShape2D" id=10]
+[sub_resource type="CapsuleShape2D" id=1]
 radius = 13.6599
 height = 30.2472
 
-[sub_resource type="SpriteFrames" id=9]
+[sub_resource type="SpriteFrames" id=2]
 animations = [ {
 "frames": [  ],
 "loop": true,
@@ -49,7 +49,7 @@ animations = [ {
 "speed": 5.0
 } ]
 
-[sub_resource type="DynamicFont" id=8]
+[sub_resource type="DynamicFont" id=3]
 size = 14
 font_data = ExtResource( 3 )
 
@@ -57,10 +57,10 @@ font_data = ExtResource( 3 )
 script = ExtResource( 1 )
 
 [node name="shape" type="CollisionShape2D" parent="."]
-shape = SubResource( 10 )
+shape = SubResource( 1 )
 
 [node name="spriteAnim" type="AnimatedSprite" parent="."]
-frames = SubResource( 9 )
+frames = SubResource( 2 )
 animation = "walk_left"
 
 [node name="label" type="Label" parent="."]
@@ -70,9 +70,11 @@ margin_right = 85.0
 margin_bottom = -14.0
 size_flags_horizontal = 2
 size_flags_vertical = 0
-custom_fonts/font = SubResource( 8 )
+custom_fonts/font = SubResource( 3 )
 text = "Player 1"
 align = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="camera" type="Camera2D" parent="."]
