@@ -1,6 +1,7 @@
 extends Control
 
-const default_ip = "46.232.250.165"
+const url = "maschm.de"
+var default_ip = "46.232.250.165"
 
 
 onready var panelConnect = $Connect
@@ -23,6 +24,11 @@ func _ready():
     State.connect("player_list_changed", self, "refresh_lobby")
     State.connect("game_ended", self, "_on_game_ended")
     State.connect("game_error", self, "_on_game_error")
+    
+    default_ip = IP.resolve_hostname(url)
+    if not default_ip:
+        btnPlayOnline.disabled = true
+    
     # Set the player name according to the system username. Fallback to the path.
     if OS.has_environment("USERNAME"):
         inputName.text = OS.get_environment("USERNAME")
