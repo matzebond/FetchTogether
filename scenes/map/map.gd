@@ -1,8 +1,9 @@
 tool
 extends Node2D
 
-const MIN_MAIN_ROOM_SIZE = Vector2(17, 11) # (odd, odd)!
+const MIN_MAIN_ROOM_SIZE = Vector2(11, 11) # (odd, odd)!
 const ROOM_DST = 14 # even!
+const MAIN_ROOM_WIDTH_EXPAND_PER_SIDE_ROOMS = 2 # even!
 const Room = preload("res://scenes/map/room.tscn")
 export var player_num_debug = 8 setget _set_player_num_debug
 
@@ -20,6 +21,12 @@ func afterReady():
     
     var main_room_size = MIN_MAIN_ROOM_SIZE
     main_room_size += Vector2(0, ROOM_DST) * max(0, ceil((playerNum - 4) / 2.0))
+    
+    var roomsOnEachSide = int(ceil((playerNum - 1) / 2))
+    
+    main_room_size.x += MAIN_ROOM_WIDTH_EXPAND_PER_SIDE_ROOMS * roomsOnEachSide
+    
+    
     var roomRoot = $Rooms
     
     var map:TileMap = $TileMap
@@ -48,9 +55,6 @@ func afterReady():
         rooms.append([Vector2(0, posStart.y-1), protoRoom.Orientation.S])
     if playerNum >= 2:
         rooms.append([Vector2(0, posStart.y+main_room_size.y), protoRoom.Orientation.N])
-    
-    
-    var roomsOnEachSide = int(ceil((playerNum - 1) / 2))
     
     var yStart = -(roomsOnEachSide - 1) * ROOM_DST
     yStart = -main_room_size.y/2 + ROOM_DST/2 - 1

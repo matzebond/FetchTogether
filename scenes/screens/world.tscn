@@ -16,7 +16,7 @@ font_data = ExtResource( 4 )
 position = Vector2( -459.918, -263.185 )
 
 [node name="0" type="Position2D" parent="SpawnPoints"]
-position = Vector2( 215.862, 347.001 )
+position = Vector2( 336.107, 314.122 )
 
 [node name="1" type="Position2D" parent="SpawnPoints"]
 position = Vector2( 495.941, 440.111 )
@@ -25,19 +25,19 @@ position = Vector2( 495.941, 440.111 )
 position = Vector2( 401.401, 381.213 )
 
 [node name="3" type="Position2D" parent="SpawnPoints"]
-position = Vector2( 276.815, 227.088 )
+position = Vector2( 311.573, 195.148 )
 
 [node name="4" type="Position2D" parent="SpawnPoints"]
-position = Vector2( 754.857, 175.035 )
+position = Vector2( 610.188, 201.339 )
 
 [node name="5" type="Position2D" parent="SpawnPoints"]
-position = Vector2( 694.791, 385.353 )
+position = Vector2( 632.79, 331.807 )
 
 [node name="6" type="Position2D" parent="SpawnPoints"]
-position = Vector2( 696, 264 )
+position = Vector2( 653, 264 )
 
 [node name="7" type="Position2D" parent="SpawnPoints"]
-position = Vector2( 744, 456 )
+position = Vector2( 607.785, 463.515 )
 
 [node name="8" type="Position2D" parent="SpawnPoints"]
 position = Vector2( 298.408, 402.869 )
@@ -46,10 +46,10 @@ position = Vector2( 298.408, 402.869 )
 position = Vector2( 382.672, 198.776 )
 
 [node name="10" type="Position2D" parent="SpawnPoints"]
-position = Vector2( 623.396, 146.378 )
+position = Vector2( 548.243, 140.742 )
 
 [node name="11" type="Position2D" parent="SpawnPoints"]
-position = Vector2( 601.225, 404.518 )
+position = Vector2( 571.164, 385.73 )
 
 [node name="Players" type="Node2D" parent="."]
 
