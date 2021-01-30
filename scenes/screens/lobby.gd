@@ -28,6 +28,10 @@ func _ready():
     if not IP.resolve_hostname(url, 1):
         btnPlayOnline.disabled = true
     
+    if OS.get_name() == "HTML5": # I think Web is not happy when failing
+        btnHostOffline.disabled = true
+        btnPlayOffline.disabled = true
+    
     # Set the player name according to the system username. Fallback to the path.
     if OS.has_environment("USERNAME"):
         inputName.text = OS.get_environment("USERNAME")
