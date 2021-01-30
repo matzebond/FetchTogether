@@ -31,6 +31,7 @@ signal game_error(what)
 # Callback from SceneTree.
 func _player_connected(id):
     # Registration of a client beings here, tell the connected player that we are here.
+    print("Player " + players[id] + " connected")
     if true_player:
         rpc_id(id, "register_player", player_name)
 
@@ -39,6 +40,7 @@ func _player_connected(id):
 func _player_disconnected(id):
     if has_node("/root/World"): # Game is in progress.
         if get_tree().is_network_server():
+            print("Player " + players[id] + " disconnected")
             emit_signal("game_error", "Player " + players[id] + " disconnected")
             end_game()
     else: # Game is not in progress.
@@ -149,7 +151,9 @@ func join_game(ip, new_player_name):
     if USE_WEBSOCKET:
         print("try join websocket")
         peer = WebSocketClient.new();
-        var url = "ws://%s:%d" % [ip, DEFAULT_PORT]
+        var url = "wss://maschm.de/FetchTogether/ws"
+        if ip:
+            url = "ws://%s:%d" % [ip, DEFAULT_PORT]
         var error = peer.connect_to_url(url, PoolStringArray(), true);
         if error:
             print("websocket connection error", error)

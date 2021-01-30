@@ -1,7 +1,6 @@
 extends Control
 
 const url = "maschm.de"
-var default_ip = "46.232.250.165"
 
 
 onready var panelConnect = $Connect
@@ -25,9 +24,8 @@ func _ready():
     State.connect("game_ended", self, "_on_game_ended")
     State.connect("game_error", self, "_on_game_error")
     
-    # default_ip = IP.resolve_hostname(url, 1) # does not work!!!
-    default_ip = "46.232.250.165"
-    if not default_ip:
+    # server down or network dead
+    if not IP.resolve_hostname(url, 1):
         btnPlayOnline.disabled = true
     
     # Set the player name according to the system username. Fallback to the path.
@@ -63,9 +61,7 @@ func _on_join_pressed(ip = null):
     btnHostOffline.disabled = true
 
     var player_name = inputName.text
-    if ip == null:
-        ip = default_ip
-    State.join_game(ip, player_name)
+    State.join_game(ip, player_name) # ip only set when hosting locally
 
 
 func _on_connection_success():
