@@ -67,7 +67,8 @@ func _physics_process(_delta):
 
     if new_anim != current_anim:
         current_anim = new_anim
-        get_node("anim").play(current_anim)
+        get_node("spriteAnim").play(new_anim)
+        
 
     # FIXME: Use move_and_slide
     move_and_slide(motion * MOTION_SPEED)
