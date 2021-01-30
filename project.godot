@@ -23,6 +23,7 @@ config/icon="res://icon.png"
 
 State="*res://autoloads/State.gd"
 Rand="*res://autoloads/Rand.gd"
+ItemLoader="*res://autoloads/ItemLoader.gd"
 
 [input]
 

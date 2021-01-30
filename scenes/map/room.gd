@@ -7,27 +7,11 @@ enum Orientation {
 
 export(Orientation) var orientation = Orientation.E setget _set_orientation
 
-const ITEM_SCENE_PATH = "res://scenes/items/"
-const ITEM_MAIN_SCENE = "item.tscn"
-var item_scenes = []
 
 func _ready():
     $TileMapOriginal.visible = false
     $TileMapRotated.visible = true
     
-    # Preload items
-    item_scenes = []
-    var dir = Directory.new()
-    if dir.open(ITEM_SCENE_PATH) == OK:
-        dir.list_dir_begin()
-        var file_name:String = dir.get_next()
-        while file_name != "":
-            if !dir.current_is_dir() and file_name != ITEM_MAIN_SCENE and file_name.ends_with(".tscn"):
-                item_scenes.append(load(ITEM_SCENE_PATH + file_name))
-            file_name = dir.get_next()
-    else:
-        printerr("Room: Could not iterate " + ITEM_SCENE_PATH)
-
     _set_orientation(orientation)
     
     
@@ -55,13 +39,12 @@ func _set_orientation(v):
         mapRotated.set_cellv(cell_rotated, mapOriginal.get_cellv(cell))
     
     # Rotate and create spawn points
-    if item_scenes.size() > 0:
+    if ItemLoader.are_items_loaded():
         for cell in mapItemSpawnPoints.get_used_cells():
             var cell_rotated = rotate_map_pos(cell, orientation)
             
             # TODO no duplicates
-            var item_id = Rand.randi() % item_scenes.size()
-            var item = item_scenes[item_id].instance()
+            var item = ItemLoader.get_random_item_scene().instance()
             
             # Set pos and add to scene
             item.position = mapRotated.map_to_world(cell_rotated) + cellSize / 2.0
