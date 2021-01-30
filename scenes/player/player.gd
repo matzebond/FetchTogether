@@ -24,6 +24,8 @@ func _physics_process(_delta):
     var motion = Vector2()
 
     if is_network_master():
+        $camera.current = true
+
         if Input.is_action_pressed("move_left"):
             motion += Vector2(-1, 0)
         if Input.is_action_pressed("move_right"):
@@ -67,10 +69,8 @@ func _physics_process(_delta):
 
     if new_anim != current_anim:
         current_anim = new_anim
-        get_node("spriteAnim").play(new_anim)
-        
+        $spriteAnim.play(new_anim)
 
-    # FIXME: Use move_and_slide
     move_and_slide(motion * MOTION_SPEED)
     if not is_network_master():
         puppet_pos = position # To avoid jitter
