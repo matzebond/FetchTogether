@@ -3,6 +3,7 @@ extends KinematicBody2D
 onready var front_root = $frontRoot
 onready var sprite_anim = $spriteAnim
 onready var camera = $camera
+onready var world = get_node("/root/World")
 
 puppet var puppet_pos = Vector2()
 puppet var puppet_motion = Vector2()
@@ -21,10 +22,13 @@ func _ready():
 
 func _process(delta):
     if is_network_master():
-        if Input.is_action_just_released("interact") && !current_item:
-            var item = get_closest_item()
-            if item:
-                rpc("pickup_item",item.get_path())
+        if Input.is_action_just_released("interact"):
+            if !current_item:
+                var item = get_closest_item()
+                if item:
+                    rpc("pickup_item",item.get_path())
+            else:
+                rpc("drop_item")
 
 func _physics_process(_delta):
     var motion = Vector2()
@@ -103,6 +107,13 @@ remotesync func pickup_item(item_path):
     parent.remove_child(item)
     front_root.add_child(item)
     item.position = Vector2(0, 0)
+    
+remotesync func drop_item():
+    var item = current_item
+    front_root.remove_child(item)
+    world.add_child(item)
+    current_item = null
+    item.position = position + front_root.position
 
 func get_closest_item():
     if items_in_range.size() == 0:
@@ -112,8 +123,8 @@ func get_closest_item():
         return items_in_range[0];
 
 func distanceTo(targetNode):
-    var a = Vector2(targetNode.position - puppet_pos)
+    var a = Vector2(targetNode.position - position)
     return sqrt((a.x * a.x) + (a.y * a.y))
         
 func sort_by_distance(a, b):
-    return distanceTo(a) > distanceTo(b)
+    return distanceTo(a) < distanceTo(b)
