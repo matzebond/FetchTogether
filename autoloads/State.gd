@@ -12,6 +12,7 @@ var peer = null
 
 # Name for my player.
 var player_name = "The Warrior"
+var true_player = true
 
 # Names for remote players in id:name format.
 var players = {}
@@ -27,7 +28,8 @@ signal game_error(what)
 # Callback from SceneTree.
 func _player_connected(id):
     # Registration of a client beings here, tell the connected player that we are here.
-    rpc_id(id, "register_player", player_name)
+    if true_player:
+        rpc_id(id, "register_player", player_name)
 
 
 # Callback from SceneTree.
@@ -155,8 +157,12 @@ remote func begin_game():
 
     # Create a dictionary with peer id and respective spawn points, could be improved by randomizing.
     var spawn_points = {}
-    spawn_points[1] = 0 # Server in spawn point 0.
-    var spawn_point_idx = 1
+    var spawn_point_idx = 0
+    
+    if true_player: # TODO flag for adding server to players
+        spawn_points[1] = spawn_point_idx # Server in spawn point 0.
+        spawn_point_idx += 1
+
     for p in players:
         spawn_points[p] = spawn_point_idx
         spawn_point_idx += 1
@@ -184,6 +190,7 @@ func _ready():
     get_tree().connect("server_disconnected", self, "_server_disconnected")
     
     if "--server" in OS.get_cmdline_args():
+        true_player = false
         print("I am a hosting only server on ")
         print(IP.get_local_addresses())
         host_game("Server")

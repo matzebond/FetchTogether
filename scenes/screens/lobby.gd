@@ -1,6 +1,6 @@
 extends Control
 
-const ip = "46.232.250.165"
+const default_ip = "46.232.250.165"
 
 
 onready var panelConnect = $Connect
@@ -9,7 +9,8 @@ onready var panelPlayers = $Players
 onready var inputName = $Connect/VBoxContainer/Name
 onready var lblError = $Connect/VBoxContainer/ErrorLabel
 
-onready var btnPlayOnline = $Connect/VBoxContainer/HBoxContainer/BtnPlayOnline
+onready var btnPlayOnline = $Connect/VBoxContainer/BtnPlayOnline
+onready var btnHostOffline = $Connect/VBoxContainer/HBoxContainer/BtnHostOffline
 onready var btnPlayOffline = $Connect/VBoxContainer/HBoxContainer/BtnPlayOffline
 onready var btnStart = $Players/Start
 
@@ -44,7 +45,7 @@ func _on_host_pressed():
     refresh_lobby()
 
 
-func _on_join_pressed():
+func _on_join_pressed(ip = null):
     if inputName.text == "":
         lblError.text = "Invalid name!"
         return
@@ -52,8 +53,11 @@ func _on_join_pressed():
     lblError.text = ""
     btnPlayOffline.disabled = true
     btnPlayOnline.disabled = true
+    btnHostOffline.disabled = true
 
     var player_name = inputName.text
+    if ip == null:
+        ip = default_ip
     State.join_game(ip, player_name)
 
 
@@ -65,6 +69,7 @@ func _on_connection_success():
 func _on_connection_failed():
     btnPlayOffline.disabled = false
     btnPlayOnline.disabled = false
+    btnHostOffline.disabled = false
     lblError.set_text("Connection failed.")
 
 
@@ -74,14 +79,15 @@ func _on_game_ended():
     panelPlayers.hide()
     btnPlayOffline.disabled = false
     btnPlayOnline.disabled = false
-
+    btnHostOffline.disabled = false
+    
 
 func _on_game_error(errtxt):
     $ErrorDialog.dialog_text = errtxt
     $ErrorDialog.popup_centered_minsize()
     btnPlayOffline.disabled = false
     btnPlayOnline.disabled = false
-
+    btnHostOffline.disabled = false
 
 func refresh_lobby():
     var players = State.get_player_list()
@@ -91,7 +97,6 @@ func refresh_lobby():
     for p in players:
         listPlayers.add_item(p)
 
-    # btnStart.disabled = not get_tree().is_network_server()
     btnStart.disabled = false
 
 func _on_start_pressed():
