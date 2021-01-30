@@ -1,7 +1,6 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=5 format=2]
 
-[ext_resource path="res://scenes/map/Map.tscn" type="PackedScene" id=1]
-[ext_resource path="res://scenes/map/rock.tscn" type="PackedScene" id=2]
+[ext_resource path="res://scenes/map/map.tscn" type="PackedScene" id=1]
 [ext_resource path="res://score.gd" type="Script" id=3]
 [ext_resource path="res://assets/montserrat.otf" type="DynamicFontData" id=4]
 
@@ -16,22 +15,22 @@ font_data = ExtResource( 4 )
 [node name="SpawnPoints" type="Node2D" parent="."]
 
 [node name="0" type="Position2D" parent="SpawnPoints"]
-position = Vector2( 72, 72 )
+position = Vector2( 215.862, 347.001 )
 
 [node name="1" type="Position2D" parent="SpawnPoints"]
-position = Vector2( 264, 216 )
+position = Vector2( 495.941, 440.111 )
 
 [node name="2" type="Position2D" parent="SpawnPoints"]
-position = Vector2( 72, 456 )
+position = Vector2( 417.464, 496.125 )
 
 [node name="3" type="Position2D" parent="SpawnPoints"]
-position = Vector2( 360, 552 )
+position = Vector2( 276.815, 227.088 )
 
 [node name="4" type="Position2D" parent="SpawnPoints"]
-position = Vector2( 840, 360 )
+position = Vector2( 754.857, 175.035 )
 
 [node name="5" type="Position2D" parent="SpawnPoints"]
-position = Vector2( 456, 264 )
+position = Vector2( 694.791, 385.353 )
 
 [node name="6" type="Position2D" parent="SpawnPoints"]
 position = Vector2( 696, 264 )
@@ -43,33 +42,13 @@ position = Vector2( 744, 456 )
 position = Vector2( 312, 456 )
 
 [node name="9" type="Position2D" parent="SpawnPoints"]
-position = Vector2( 696, 72 )
+position = Vector2( 374.023, 120.933 )
 
 [node name="10" type="Position2D" parent="SpawnPoints"]
-position = Vector2( 504, 72 )
+position = Vector2( 623.396, 146.378 )
 
 [node name="11" type="Position2D" parent="SpawnPoints"]
-position = Vector2( 936, 72 )
-
-[node name="Rocks" type="Node2D" parent="."]
-
-[node name="Rock0" parent="Rocks" instance=ExtResource( 2 )]
-position = Vector2( 120, 72 )
-
-[node name="Rock1" parent="Rocks" instance=ExtResource( 2 )]
-position = Vector2( 264, 168 )
-
-[node name="Rock2" parent="Rocks" instance=ExtResource( 2 )]
-position = Vector2( 264, 120 )
-
-[node name="Rock3" parent="Rocks" instance=ExtResource( 2 )]
-position = Vector2( 216, 72 )
-
-[node name="Rock4" parent="Rocks" instance=ExtResource( 2 )]
-position = Vector2( 264, 72 )
-
-[node name="Rock5" parent="Rocks" instance=ExtResource( 2 )]
-position = Vector2( 312, 72 )
+position = Vector2( 658.063, 476.183 )
 
 [node name="Players" type="Node2D" parent="."]
 
@@ -84,6 +63,7 @@ __meta__ = {
 }
 
 [node name="Winner" type="Label" parent="."]
+visible = false
 margin_right = 1031.0
 margin_bottom = 617.0
 size_flags_horizontal = 2
