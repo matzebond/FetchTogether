@@ -23,16 +23,6 @@ animations = [ {
 "name": "stunned",
 "speed": 5.0
 }, {
-"frames": [  ],
-"loop": true,
-"name": "walk_down",
-"speed": 5.0
-}, {
-"frames": [ ExtResource( 2 ) ],
-"loop": true,
-"name": "standing",
-"speed": 5.0
-}, {
 "frames": [ ExtResource( 9 ), ExtResource( 11 ), ExtResource( 10 ), ExtResource( 8 ) ],
 "loop": true,
 "name": "walk_right",
@@ -46,6 +36,16 @@ animations = [ {
 "frames": [  ],
 "loop": true,
 "name": "walk_up",
+"speed": 5.0
+}, {
+"frames": [  ],
+"loop": true,
+"name": "walk_down",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 2 ) ],
+"loop": true,
+"name": "standing",
 "speed": 5.0
 } ]
 
