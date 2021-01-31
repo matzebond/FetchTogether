@@ -24,9 +24,6 @@ var spawn_pos
 
 var enable_walk = G.IS_DEBUG
 
-func _set_enable_walk(v):
-    enable_walk = v   
-
 func zoom_out_camera(zoom_out=true):
     var target_zoom = Vector2(1.8, 1.8) if zoom_out else Vector2(1, 1)
     $Tween.interpolate_property($camera, "zoom", null, target_zoom, 1.2, Tween.TRANS_CUBIC, Tween.EASE_IN_OUT)

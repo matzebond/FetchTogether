@@ -79,6 +79,7 @@ func _on_CategoryRevealTimer_timeout():
         $CategoryRevealTimer.stop()
         for player in get_tree().get_nodes_in_group("player"):
             player.zoom_out_camera(false)
+            set_players_enable_walk(true)
         return
     
     # First iteration is -1
