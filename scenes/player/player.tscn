@@ -75,11 +75,13 @@ tracks/1/keys = {
 [node name="player" type="KinematicBody2D" groups=[
 "player",
 ]]
+collision_mask = 1048575
 script = ExtResource( 1 )
 
 [node name="Tween" type="Tween" parent="."]
 
 [node name="playerDetector" type="Area2D" parent="."]
+collision_mask = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="playerDetector"]
 position = Vector2( 0, -49.9294 )

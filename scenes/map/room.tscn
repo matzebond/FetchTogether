@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://scenes/map/tileset.tres" type="TileSet" id=1]
 [ext_resource path="res://scenes/map/room.gd" type="Script" id=2]
@@ -8,6 +8,7 @@
 [ext_resource path="res://scenes/map/furniture/FurnitureChair.tscn" type="PackedScene" id=6]
 [ext_resource path="res://scenes/map/furniture/FurnitureBookshelfSide.tscn" type="PackedScene" id=7]
 [ext_resource path="res://scenes/map/furniture/FurnitureTable.tscn" type="PackedScene" id=8]
+[ext_resource path="res://scenes/map/door.tscn" type="PackedScene" id=9]
 
 [node name="Room" type="Node2D"]
 script = ExtResource( 2 )
@@ -95,6 +96,10 @@ position = Vector2( 844, 353 )
 texture = ExtResource( 3 )
 offset = Vector2( 0, -32 )
 
+[node name="Door" parent="E" instance=ExtResource( 9 )]
+position = Vector2( 18.2551, -3.1748 )
+rotation = 1.5708
+
 [node name="W" type="Node2D" parent="."]
 
 [node name="TileMap" type="TileMap" parent="W"]
@@ -179,6 +184,10 @@ offset = Vector2( 0, -32 )
 position = Vector2( -768, 353 )
 texture = ExtResource( 3 )
 offset = Vector2( 0, -32 )
+
+[node name="Door" parent="W" instance=ExtResource( 9 )]
+position = Vector2( -59.5275, 2.3811 )
+rotation = 1.5708
 
 [node name="N" type="Node2D" parent="."]
 
@@ -265,6 +274,9 @@ position = Vector2( 64, 641 )
 texture = ExtResource( 3 )
 offset = Vector2( 0, -32 )
 
+[node name="Door" parent="N" instance=ExtResource( 9 )]
+position = Vector2( -0.793701, 162.709 )
+
 [node name="S" type="Node2D" parent="."]
 
 [node name="TileMap" type="TileMap" parent="S"]
@@ -349,3 +361,5 @@ offset = Vector2( 0, -32 )
 position = Vector2( 32, -607 )
 texture = ExtResource( 3 )
 offset = Vector2( 0, -32 )
+
+[node name="Door" parent="S" instance=ExtResource( 9 )]

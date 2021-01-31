@@ -11,14 +11,14 @@ height = 22.4746
 
 [sub_resource type="SpriteFrames" id=2]
 animations = [ {
-"frames": [ ExtResource( 2 ), ExtResource( 2 ), ExtResource( 2 ), ExtResource( 1 ), ExtResource( 3 ), ExtResource( 1 ), ExtResource( 2 ) ],
-"loop": true,
-"name": "talk",
-"speed": 5.0
-}, {
 "frames": [  ],
 "loop": true,
 "name": "idle",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 2 ), ExtResource( 2 ), ExtResource( 2 ), ExtResource( 1 ), ExtResource( 3 ), ExtResource( 1 ), ExtResource( 2 ) ],
+"loop": true,
+"name": "talk",
 "speed": 5.0
 } ]
 
@@ -35,7 +35,7 @@ shape = SubResource( 1 )
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 frames = SubResource( 2 )
 animation = "talk"
-frame = 5
+frame = 4
 playing = true
 
 [node name="CategoryRevealTimer" type="Timer" parent="."]

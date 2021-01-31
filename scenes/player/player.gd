@@ -211,6 +211,9 @@ func sort_by_distance(a, b):
 
 
 func _on_playerDetector_body_entered(body):
+    if body in get_tree().get_nodes_in_group("door"):
+        if is_network_master():
+            pass
     if body in get_tree().get_nodes_in_group("player") or body in get_tree().get_nodes_in_group("god"):
         if is_network_master():
             var n = (get_center() - body.get_center()).normalized()

@@ -38,8 +38,9 @@ tracks/0/keys = {
 item_categories = [ 1, 5 ]
 
 [node name="animSprite" parent="." index="0"]
-rotation = 0.0864388
+rotation = -0.0488837
 frames = SubResource( 1 )
+frame = 1
 playing = true
 
 [node name="CollisionShape2D" parent="pickupArea" index="0"]

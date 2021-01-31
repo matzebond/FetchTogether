@@ -63,10 +63,11 @@ func afterReady():
         rooms.append([Vector2(x, floor(yStart+y)), orientation])
 
     # Spawn new rooms
-    for roomInfo in rooms:
+    for i in range(rooms.size()):
+        var roomInfo = rooms[i]
         var room = Room.instance()
         add_child(room)
-        room.addToMap(roomInfo[1], map, ysort, roomInfo[0])
+        room.addToMap(roomInfo[1], map, ysort, roomInfo[0], i)
         room.queue_free()
     
     map.update_bitmask_region()

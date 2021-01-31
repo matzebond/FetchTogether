@@ -10,13 +10,21 @@ onready var orientation_to_node = {
     G.Orientation.W : $W    
 }
 
-func addToMap(orientation, map:TileMap, nodeRoot:Node2D, pos:Vector2):
+func addToMap(orientation, map:TileMap, nodeRoot:Node2D, pos:Vector2, id):
     var tileSize = map.cell_size
     
     var node = orientation_to_node[orientation]
     var tileMap:TileMap = node.get_node("TileMap")
     var spawnPositions = node.get_node("YSort/ItemSpawnPositions")
     var furniture = node.get_node("YSort/Furniture")
+    var door = node.get_node("Door")
+    
+    #Add door
+    node.remove_child(door)
+    nodeRoot.add_child(door)
+    door.position = pos * tileSize + door.position
+    door.set_collision_mask_bit(id + 1, false)
+    door.set_collision_layer_bit(id + 1, false)
     
     # Transfer tiles
     for cell in tileMap.get_used_cells():

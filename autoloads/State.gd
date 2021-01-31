@@ -106,14 +106,15 @@ remote func pre_start_game(spawn_points, new_seed):
     var d_phi = 2 * PI / spawn_points.size()
     var phi = 0
     var radius = 260 + spawn_points.size()*7
+    var player_count = 0
     for p_id in spawn_points:
-        
         var player = player_scene.instance()
         
         player.set_name(str(p_id)) # Use unique ID as node name.
         player.position = get_tree().get_nodes_in_group("god")[0].position + Vector2(0, radius).rotated(phi)
         player.spawn_pos = player.position
         player.set_network_master(p_id) #set unique id as master.
+        player.set_collision_layer_bit(player_count + 1, true)
 
         if p_id == get_tree().get_network_unique_id():
             # If node for this peer id, set name.
@@ -125,6 +126,7 @@ remote func pre_start_game(spawn_points, new_seed):
         get_tree().get_nodes_in_group("ysort")[0].add_child(player)
         
         phi += d_phi
+        player_count += 1
 
     if not get_tree().is_network_server():
         # Tell server we are ready to start.
@@ -198,9 +200,9 @@ remote func begin_game():
         rpc_id(1, "begin_game")
         return
         
-    if get_tree().get_rpc_sender_id() != leader:
-        print("%s is trying to start the game bus is not the leader" % players[get_tree().get_rpc_sender_id()])
-        return
+    #if get_tree().get_rpc_sender_id() != leader:
+    #    print("%s is trying to start the game bus is not the leader" % players[get_tree().get_rpc_sender_id()])
+    #    return
     
     print("Beginning new game")
     
