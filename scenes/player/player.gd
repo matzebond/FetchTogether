@@ -126,7 +126,7 @@ func _on_ItemPickup_area_entered(area):
         drop_zones_in_range.append(area.get_parent())
 
 func _on_ItemPickup_area_exited(area):
-    if area in get_tree().get_nodes_in_group("item"):
+    if area.get_parent() in get_tree().get_nodes_in_group("item"):
         items_in_range.erase(area.get_parent())
         update_item_highlights()
     if area in get_tree().get_nodes_in_group("drop_zone"):
@@ -159,6 +159,7 @@ remotesync func pickup_item(item_path):
     var parent = item.get_parent()
     
     # reset parent
+    # works for both player and dropZone!
     if parent.get_parent().get("current_item") == item:
         parent.get_parent().current_item = null
 
