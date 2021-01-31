@@ -35,7 +35,7 @@ func _set_current_item(v):
 
 func _set_category(v):
     category = v
-    $Label.text = G.ItemCategory.keys()[v]
+    $Label.text = G.CATEGORY_TO_PRETTY[v]
     $Label.rect_pivot_offset = $Label.rect_size / 2
     
     $category.stream = G.CATEGORY_TO_FILE[category]
