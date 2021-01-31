@@ -7,6 +7,8 @@ var drop_zones = []
 func _ready():
     call_deferred("start")
 
+
+var drop_zone_id = 0
 func start():
     var num_players = get_tree().get_nodes_in_group("player").size()
 
@@ -24,7 +26,8 @@ func start():
         
         # Initialize DropZone
         var drop_zone = DropZone.instance()
-        drop_zone.name = "drop_zone_" + str(i)
+        drop_zone.name = "drop_zone_" + str(drop_zone_id)
+        drop_zone_id += 1
         add_child(drop_zone)
         drop_zone.position = Vector2(0, radius).rotated(phi)
         drop_zone.category = category
