@@ -37,9 +37,10 @@ func _player_connected(id):
         
     # send leader id to connected players
     if get_tree().is_network_server():
-        if not leader:
+        if leader == null:
             leader = id
-        rset_id(id, "leader", leader)
+            print("leader is now %d" % leader)
+        rpc_id(id, "set_leader", leader)
 
 
 # Callback from SceneTree.
@@ -58,7 +59,7 @@ func _player_disconnected(id):
 
 # Callback from SceneTree, only for clients (not server).
 func _connected_ok():
-    # We just connected to a server
+    print("Your unique id is %d" % get_tree().get_network_unique_id())
     emit_signal("connection_succeeded")
 
 
@@ -88,6 +89,21 @@ remote func register_player(new_player_name):
 
 func unregister_player(id):
     players.erase(id)
+    if get_tree().is_network_server() and id == leader:
+        if len(players) > 0:
+            rpc("set_leader", players.keys()[0])
+        else:
+            leader = null
+    emit_signal("player_list_changed")
+  
+  
+remotesync func set_leader(new_leader):
+    if !get_tree().get_rpc_sender_id() == 1:
+        print("set_leader not from server")
+        return
+
+    leader = new_leader
+    print("leader is %d" % leader)
     emit_signal("player_list_changed")
 
 
@@ -192,6 +208,8 @@ func get_player_list():
 func get_player_name():
     return player_name
 
+func can_start_game():
+    return State.leader == get_tree().get_network_unique_id()
 
 remote func begin_game():
     if not get_tree().is_network_server():
@@ -199,7 +217,7 @@ remote func begin_game():
         return
         
     if get_tree().get_rpc_sender_id() != leader:
-        print("%s is trying to start the game bus is not the leader" % players[get_tree().get_rpc_sender_id()])
+        print("%d is trying to start the game bus is not the leader" % get_tree().get_rpc_sender_id())
         return
     
     print("Beginning new game")
