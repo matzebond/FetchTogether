@@ -20,6 +20,7 @@ var true_player = true
 # Names for remote players in id:name format.
 var players = {}
 var players_ready = []
+remote var leader = null
 
 # Signals to let lobby GUI know what's going on.
 signal player_list_changed()
@@ -33,6 +34,12 @@ func _player_connected(id):
     # Registration of a client beings here, tell the connected player that we are here.
     if true_player:
         rpc_id(id, "register_player", player_name)
+        
+    # send leader id to connected players
+    if get_tree().is_network_server():
+        if not leader:
+            leader = id
+        rset_id(id, "leader", leader)
 
 
 # Callback from SceneTree.
@@ -82,6 +89,7 @@ remote func register_player(new_player_name):
 func unregister_player(id):
     players.erase(id)
     emit_signal("player_list_changed")
+
 
 remote func pre_start_game(spawn_points, new_seed):
     Rand.set_seed(new_seed)
@@ -152,6 +160,9 @@ func host_game(new_player_name):
         peer = NetworkedMultiplayerENet.new()
         peer.create_server(DEFAULT_PORT, MAX_PEERS)
     get_tree().set_network_peer(peer);
+    
+    if true_player:
+        leader = 1
 
     
 func join_game(ip, new_player_name):
@@ -186,6 +197,11 @@ remote func begin_game():
     if not get_tree().is_network_server():
         rpc_id(1, "begin_game")
         return
+        
+    if get_tree().get_rpc_sender_id() != leader:
+        print("%s is trying to start the game bus is not the leader" % players[get_tree().get_rpc_sender_id()])
+        return
+    
     print("Beginning new game")
     
     # Create a dictionary with peer id and respective spawn points, could be improved by randomizing.
@@ -216,6 +232,7 @@ func end_game():
     emit_signal("game_ended")
     players.clear()
     players_ready.clear()
+    leader = null
     get_tree().set_refuse_new_network_connections(false)
 
 
