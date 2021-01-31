@@ -37,9 +37,9 @@ func _player_connected(id):
 
 # Callback from SceneTree.
 func _player_disconnected(id):
+    print("Player " + players[id] + " disconnected")
+    
     if has_node("/root/World"): # Game is in progress.
-        if get_tree().is_network_server():
-            print("Player " + players[id] + " disconnected")
         unregister_player(id)
         if len(players) == 0:
             emit_signal("game_error", "All other Players disconnected")
@@ -184,7 +184,8 @@ remote func begin_game():
     if not get_tree().is_network_server():
         rpc_id(1, "begin_game")
         return
-
+    print("Beginning new game")
+    
     # Create a dictionary with peer id and respective spawn points, could be improved by randomizing.
     var spawn_points = {}
     var spawn_point_idx = 0
@@ -225,8 +226,7 @@ func _ready():
     
     if "--server" in OS.get_cmdline_args():
         true_player = false
-        print("I am a hosting only server on ")
-        print(IP.get_local_addresses())
+        print("Headless server started")
         host_game("Server")
 
 func _process(delta):
