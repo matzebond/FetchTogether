@@ -60,6 +60,11 @@ remotesync func end_level():
     # Start player teleportation
     for player in get_tree().get_nodes_in_group("player"):
         player.teleport_to_spawn_pos()
+    
+    var ghost_ant = get_tree().get_nodes_in_group("ghost_ant")[0]    
+    ghost_ant.set_active(false)
+    ghost_ant.level += 1
+    
     start_showing_score()
 
 func get_center()->Vector2:
@@ -82,6 +87,9 @@ func _on_CategoryRevealTimer_timeout():
         for player in get_tree().get_nodes_in_group("player"):
             player.zoom_out_camera(false)
             set_players_enable_walk(true)
+            var ghost_ant = get_tree().get_nodes_in_group("ghost_ant")[0]    
+            ghost_ant.set_active(true)
+            
         for ui in get_tree().get_nodes_in_group("ui"):
             ui.resetTime()
         return

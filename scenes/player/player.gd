@@ -9,6 +9,7 @@ onready var tween:Tween = $Tween
 puppet var puppet_pos = Vector2()
 puppet var puppet_vel = Vector2()
 
+
 var vel = Vector2()
 
 const STOP_ACCEL = 1400.0
@@ -25,7 +26,7 @@ var spawn_pos
 var enable_walk = G.IS_DEBUG
 
 func zoom_out_camera(zoom_out=true):
-    var target_zoom = Vector2(1.8, 1.8) if zoom_out else Vector2(1, 1)
+    var target_zoom = Vector2(1.3, 1.3) if zoom_out else Vector2(1, 1)
     $Tween.interpolate_property($camera, "zoom", null, target_zoom, 1.2, Tween.TRANS_CUBIC, Tween.EASE_IN_OUT)
     $Tween.start()
 
@@ -211,11 +212,22 @@ func sort_by_distance(a, b):
 
 
 func _on_playerDetector_body_entered(body):
-    if body in get_tree().get_nodes_in_group("player") or body in get_tree().get_nodes_in_group("god"):
-        if is_network_master():
-            var n = (get_center() - body.get_center()).normalized()
-            vel += n * PLAYER_COLLISION_FORCE
     
+    var is_player = body.is_in_group("player")
+    var is_god = body.is_in_group("god")
+    
+    if is_player or is_god:
+        if is_network_master():
+            
+            var amplify = body.current_item.knockback_amplify if body.get("current_item") else 1
+            var n = (get_center() - body.get_center()).normalized()
+            vel += n * PLAYER_COLLISION_FORCE * amplify
+    
+func _on_playerDetector_area_entered(area):
+    var g = area.get_parent()
+    if g.is_in_group("ghost_ant") and g.active:
+        var n = (get_center() - g.get_center()).normalized()
+        vel += n * PLAYER_COLLISION_FORCE
     
 func get_center()->Vector2:
     return sprite_anim.global_position
@@ -246,3 +258,5 @@ func _on_AnimationPlayer_animation_finished(anim_name):
         
 func _on_TeleportationTween_tween_all_completed():
     $TeleportationAnimationPlayer.play("teleport_end")
+
+
