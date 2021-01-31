@@ -15,10 +15,13 @@ animations = [ {
 radius = 35.5035
 
 [node name="Node2D" instance=ExtResource( 1 )]
-item_categories = [ 0 ]
+item_categories = [ 0, 7, 1 ]
 
 [node name="animSprite" parent="." index="0"]
 frames = SubResource( 1 )
 
 [node name="CollisionShape2D" parent="pickupArea" index="0"]
 shape = SubResource( 2 )
+
+[node name="ShaderAnimator" parent="." index="2"]
+blend_times = [ "pulse", "end", 0.2 ]

@@ -108,7 +108,12 @@ func refresh_lobby():
     for p in players:
         listPlayers.add_item(p)
 
-    btnStart.disabled = false
+    if State.can_start_game():
+        btnStart.disabled = false
+        btnStart.text = "Start"
+    else:
+        btnStart.disabled = true
+        btnStart.text = "Waiting..."
 
 func _on_start_pressed():
     State.begin_game()

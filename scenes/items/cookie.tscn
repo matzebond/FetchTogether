@@ -38,7 +38,9 @@ tracks/0/keys = {
 item_categories = [ 1, 5 ]
 
 [node name="animSprite" parent="." index="0"]
+rotation = 0.0864388
 frames = SubResource( 1 )
+frame = 2
 playing = true
 
 [node name="CollisionShape2D" parent="pickupArea" index="0"]
@@ -48,3 +50,6 @@ shape = SubResource( 2 )
 playback_speed = 0.7
 anims/anim = SubResource( 3 )
 script = ExtResource( 5 )
+
+[node name="ShaderAnimator" parent="." index="3"]
+blend_times = [ "pulse", "end", 0.2 ]

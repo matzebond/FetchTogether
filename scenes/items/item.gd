@@ -3,6 +3,7 @@ extends Node2D
 onready var tween:Tween = $Tween
 
 export(Array, G.ItemCategory) var item_categories = []
+export var knockback_amplify = 1
 
 func _ready():
     if has_node("AnimationPlayer"):
@@ -26,3 +27,4 @@ func disable():
     $pickupArea.monitorable = false
     $pickupArea.monitoring = false
     disabled = true
+    

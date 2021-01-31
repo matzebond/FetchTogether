@@ -17,7 +17,7 @@ radius = 17.5523
 height = 26.1994
 
 [node name="Node2D" instance=ExtResource( 1 )]
-item_categories = [ 5, 7, 3 ]
+item_categories = [ 5, 7 ]
 
 [node name="animSprite" parent="." index="0"]
 frames = SubResource( 1 )

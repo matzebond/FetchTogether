@@ -126,6 +126,7 @@ anims/teleport_end = SubResource( 5 )
 anims/teleport_start = SubResource( 6 )
 
 [node name="TeleportationTween" type="Tween" parent="."]
+[connection signal="area_entered" from="playerDetector" to="." method="_on_playerDetector_area_entered"]
 [connection signal="body_entered" from="playerDetector" to="." method="_on_playerDetector_body_entered"]
 [connection signal="area_entered" from="YSort/frontRoot/ItemPickup" to="." method="_on_ItemPickup_area_entered"]
 [connection signal="area_exited" from="YSort/frontRoot/ItemPickup" to="." method="_on_ItemPickup_area_exited"]

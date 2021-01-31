@@ -1,6 +1,35 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://scenes/screens/lobby.gd" type="Script" id=1]
+[ext_resource path="res://assets/items/cookie/cookie_0000.png" type="Texture" id=2]
+[ext_resource path="res://assets/items/cookie/cookie_0002.png" type="Texture" id=3]
+[ext_resource path="res://assets/items/cookie/cookie_0001.png" type="Texture" id=4]
+[ext_resource path="res://scenes/items/AnimationPlayerAutoStart.gd" type="Script" id=5]
+
+[sub_resource type="SpriteFrames" id=1]
+animations = [ {
+"frames": [ ExtResource( 2 ), ExtResource( 4 ), ExtResource( 3 ) ],
+"loop": true,
+"name": "default",
+"speed": 5.0
+} ]
+
+[sub_resource type="Animation" id=2]
+resource_name = "anim"
+length = 0.4
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:rotation_degrees")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0.00138778, 0.101308, 0.3, 0.39968 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ 0.0, 5.0, -5.0, 0.0 ]
+}
 
 [node name="Lobby" type="Control"]
 anchor_right = 1.0
@@ -70,14 +99,39 @@ __meta__ = {
 margin_left = 7.0
 margin_top = 7.0
 margin_right = 270.0
-margin_bottom = 160.0
+margin_bottom = 183.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="NameLabel" type="Label" parent="Connect/VBoxContainer"]
+[node name="CenterContainer" type="CenterContainer" parent="Connect/VBoxContainer"]
 margin_right = 263.0
-margin_bottom = 14.0
+margin_bottom = 64.0
+
+[node name="Control" type="Control" parent="Connect/VBoxContainer/CenterContainer"]
+margin_left = 99.0
+margin_right = 163.0
+margin_bottom = 64.0
+rect_min_size = Vector2( 64, 64 )
+
+[node name="animSprite" type="AnimatedSprite" parent="Connect/VBoxContainer/CenterContainer/Control"]
+position = Vector2( 32, 32 )
+frames = SubResource( 1 )
+playing = true
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Connect/VBoxContainer/CenterContainer/Control"]
+root_node = NodePath("../animSprite")
+playback_speed = 0.7
+anims/anim = SubResource( 2 )
+script = ExtResource( 5 )
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="NameLabel" type="Label" parent="Connect/VBoxContainer"]
+margin_top = 68.0
+margin_right = 263.0
+margin_bottom = 82.0
 size_flags_horizontal = 3
 size_flags_vertical = 0
 text = "Name:"
@@ -86,9 +140,9 @@ __meta__ = {
 }
 
 [node name="Name" type="LineEdit" parent="Connect/VBoxContainer"]
-margin_top = 18.0
+margin_top = 86.0
 margin_right = 263.0
-margin_bottom = 42.0
+margin_bottom = 110.0
 size_flags_horizontal = 3
 size_flags_vertical = 2
 text = "The Warrior"
@@ -97,17 +151,17 @@ __meta__ = {
 }
 
 [node name="BtnPlayOnline" type="Button" parent="Connect/VBoxContainer"]
-margin_top = 66.0
+margin_top = 114.0
 margin_right = 263.0
-margin_bottom = 86.0
+margin_bottom = 134.0
 size_flags_horizontal = 3
 size_flags_vertical = 2
 text = "Play online"
 
 [node name="HBoxContainer" type="HBoxContainer" parent="Connect/VBoxContainer"]
-margin_top = 115.0
+margin_top = 138.0
 margin_right = 263.0
-margin_bottom = 135.0
+margin_bottom = 158.0
 
 [node name="BtnHostOffline" type="Button" parent="Connect/VBoxContainer/HBoxContainer"]
 margin_right = 129.0
@@ -125,8 +179,8 @@ size_flags_vertical = 2
 text = "Play (local)"
 
 [node name="ErrorLabel" type="Label" parent="Connect/VBoxContainer"]
-margin_top = 139.0
-margin_bottom = 153.0
+margin_top = 162.0
+margin_bottom = 176.0
 size_flags_horizontal = 2
 size_flags_vertical = 0
 custom_colors/font_color = Color( 0.820312, 0.291595, 0.291595, 1 )
