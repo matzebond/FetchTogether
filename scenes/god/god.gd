@@ -94,10 +94,12 @@ func _on_CategoryRevealTimer_timeout():
         for ui in get_tree().get_nodes_in_group("ui"):
             ui.resetTime()
         return
-
+    
+    if next_reveal_drop_zone_id == -1:
+        $FetchME.play()
+        
     # First iteration is -1
     if next_reveal_drop_zone_id >= 0:
-        $FetchME.play()
         drop_zones[next_reveal_drop_zone_id].play_category_reveal_animation()
     next_reveal_drop_zone_id += 1
 
