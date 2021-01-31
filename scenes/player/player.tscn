@@ -19,7 +19,7 @@ radius = 43.3705
 size = 14
 font_data = ExtResource( 3 )
 
-[sub_resource type="Animation" id=6]
+[sub_resource type="Animation" id=5]
 resource_name = "teleport_end"
 tracks/0/type = "value"
 tracks/0/path = NodePath("YSort/spriteAnim:scale")
@@ -46,8 +46,7 @@ tracks/1/keys = {
 "values": [ 0.0, 1.0, 1.0 ]
 }
 
-[sub_resource type="Animation" id=5]
-resource_name = "teleport_start"
+[sub_resource type="Animation" id=6]
 tracks/0/type = "value"
 tracks/0/path = NodePath("YSort/spriteAnim:scale")
 tracks/0/interp = 2
@@ -123,8 +122,8 @@ __meta__ = {
 position = Vector2( 0, -40 )
 
 [node name="TeleportationAnimationPlayer" type="AnimationPlayer" parent="."]
-anims/teleport_end = SubResource( 6 )
-anims/teleport_start = SubResource( 5 )
+anims/teleport_end = SubResource( 5 )
+anims/teleport_start = SubResource( 6 )
 
 [node name="TeleportationTween" type="Tween" parent="."]
 [connection signal="body_entered" from="playerDetector" to="." method="_on_playerDetector_body_entered"]

@@ -24,6 +24,11 @@ var spawn_pos
 
 var enable_walk = G.IS_DEBUG
 
+func zoom_out_camera(zoom_out=true):
+    var target_zoom = Vector2(1.8, 1.8) if zoom_out else Vector2(1, 1)
+    $Tween.interpolate_property($camera, "zoom", null, target_zoom, 1.2, Tween.TRANS_CUBIC, Tween.EASE_IN_OUT)
+    $Tween.start()
+
 func _ready():
     puppet_pos = position
     
@@ -140,7 +145,7 @@ func _on_ItemPickup_area_exited(area):
 var cur_highlighted_item = null
 func update_item_highlights():
     if current_item:
-        if cur_highlighted_item != current_item:
+        if cur_highlighted_item and cur_highlighted_item != current_item:
             cur_highlighted_item.set_highlight(false)
         current_item.set_highlight(true)
         return
