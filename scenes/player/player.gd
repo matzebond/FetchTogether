@@ -222,6 +222,10 @@ func teleport_to_spawn_pos():
     enable_walk = false
     vel = Vector2.ZERO
     
+    # Make GHOST
+    collision_layer = 0; collision_mask = 0
+    $playerDetector.collision_layer = 0; $playerDetector.collision_mask = 0
+    
     $TeleportationAnimationPlayer.play("teleport_start")
     
 func _on_AnimationPlayer_animation_finished(anim_name):
@@ -230,6 +234,10 @@ func _on_AnimationPlayer_animation_finished(anim_name):
         $TeleportationTween.start()
     if anim_name == "teleport_end":
         enable_walk = true
+        
+        # undo ghost
+        collision_layer = 1; collision_mask = 1
+        $playerDetector.collision_layer = 1; $playerDetector.collision_mask = 1
         
 func _on_TeleportationTween_tween_all_completed():
     $TeleportationAnimationPlayer.play("teleport_end")
