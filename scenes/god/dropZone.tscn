@@ -23,3 +23,14 @@ texture = ExtResource( 2 )
 [node name="Tween" type="Tween" parent="."]
 
 [node name="ItemRoot" type="Node2D" parent="."]
+
+[node name="Label" type="Label" parent="."]
+margin_left = -48.0
+margin_top = 30.0
+margin_right = 48.0
+margin_bottom = 44.0
+grow_horizontal = 2
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}

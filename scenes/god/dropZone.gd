@@ -1,6 +1,9 @@
 extends Node2D
 
-var current_item = null
+signal item_changed()
+
+var current_item = null setget _set_current_item
+var category = null setget _set_category
 
 remotesync func receive_item(item_path):
     if !has_node(item_path): return
@@ -22,6 +25,13 @@ remotesync func receive_item(item_path):
         current_item.tween_to(global_position + position)
         
     current_item = item
-    
+
+func _set_current_item(v):
+    current_item = v
+    emit_signal("item_changed", v)
+
+func _set_category(v):
+    category = v
+    $Label.text = G.ItemCategory.keys()[v]
     
     

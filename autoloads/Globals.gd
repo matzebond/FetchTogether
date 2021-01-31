@@ -30,3 +30,6 @@ const ItemCategoryProbabilities = [
 
 func get_random_item_category():
     return ItemCategoryProbabilities[Rand.randi() % ItemCategoryProbabilities.size()]
+
+func get_item_category_num():
+    return ItemCategory.size()
