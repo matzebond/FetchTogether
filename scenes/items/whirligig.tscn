@@ -34,6 +34,7 @@ tracks/0/keys = {
 }
 
 [node name="Node2D" instance=ExtResource( 2 )]
+item_categories = [ 8, 6 ]
 
 [node name="animSprite" parent="." index="0"]
 frames = SubResource( 1 )

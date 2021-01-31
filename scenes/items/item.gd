@@ -2,6 +2,8 @@ extends Node2D
 
 onready var tween:Tween = $Tween
 
+export(Array, G.ItemCategory) var item_categories = []
+
 func _ready():
     if has_node("AnimationPlayer"):
         $AnimationPlayer.play("anim")
