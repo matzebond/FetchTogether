@@ -17,6 +17,7 @@ height = 57.9261
 
 [node name="Node2D" instance=ExtResource( 1 )]
 item_categories = [ 2, 4, 9 ]
+knockback_amplify = 3
 
 [node name="animSprite" parent="." index="0"]
 frames = SubResource( 1 )

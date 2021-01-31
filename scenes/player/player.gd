@@ -9,6 +9,7 @@ onready var tween:Tween = $Tween
 puppet var puppet_pos = Vector2()
 puppet var puppet_vel = Vector2()
 
+
 var vel = Vector2()
 
 const STOP_ACCEL = 1400.0
@@ -25,13 +26,13 @@ var spawn_pos
 var enable_walk = G.IS_DEBUG
 
 func zoom_out_camera(zoom_out=true):
-    var target_zoom = Vector2(1.8, 1.8) if zoom_out else Vector2(1, 1)
+    var target_zoom = Vector2(1.3, 1.3) if zoom_out else Vector2(1, 1)
     $Tween.interpolate_property($camera, "zoom", null, target_zoom, 1.2, Tween.TRANS_CUBIC, Tween.EASE_IN_OUT)
     $Tween.start()
 
 func _ready():
     puppet_pos = position
-    
+
     var id = self.get_index() + 1
     var frames = load("res://assets/char/player" + str(id) +".tres")
     sprite_anim.set_sprite_frames(frames)
@@ -46,16 +47,16 @@ func _process(delta):
             else:
                 var item = current_item
                 rpc("drop_item", item.get_path(), front_root.global_position)
-                
+
                 var drop_zone = get_closest_in(drop_zones_in_range)
                 if drop_zone:
                     drop_zone.rpc("receive_item", item.get_path())
-    
+
 func _physics_process(delta):
 
     if is_network_master():
         camera.current = true
-        
+
         # Apply stop force
         if vel.x > 0:   vel.x = max(0, vel.x - STOP_ACCEL*delta)
         if vel.x < 0:   vel.x = min(0, vel.x + STOP_ACCEL*delta)
@@ -99,7 +100,7 @@ func _physics_process(delta):
             new_anim = "walk_side"
             front_root_pos = Vector2(70, -18)
             sprite_anim.flip_h = true
-    
+
     # Animate front root
     if front_root_pos != front_root.position:
         tween.interpolate_property(front_root, "position", null, front_root_pos, 0.2, Tween.TRANS_CUBIC, Tween.EASE_OUT)
@@ -109,14 +110,14 @@ func _physics_process(delta):
     if new_anim and new_anim != current_anim:
         current_anim = new_anim
         sprite_anim.play(new_anim)
-    
+
     # Scale animation speed
     var is_walking = vel != Vector2.ZERO
     sprite_anim.speed_scale = 1 if is_walking else 0
     if !is_walking: sprite_anim.frame = 0
 
     vel = move_and_slide(vel)
-    
+
     if is_network_master():
         rset("puppet_vel", vel)
         rset("puppet_pos", position)
@@ -149,25 +150,25 @@ func update_item_highlights():
             cur_highlighted_item.set_highlight(false)
         current_item.set_highlight(true)
         return
-    
+
     var closest = get_closest_in(items_in_range)
-    
+
     if cur_highlighted_item and cur_highlighted_item != closest:
         cur_highlighted_item.set_highlight(false)
-    
+
     if closest and cur_highlighted_item != closest:
         closest.set_highlight(true)
-    
+
     cur_highlighted_item = closest
 
 remotesync func pickup_item(item_path):
     if !has_node(item_path): return
-    
+
     var item = get_node(item_path)
     if not item:
         print("Pickup: %s does not exist. Item is null" % str(item_path))
     var parent = item.get_parent()
-    
+
     # reset parent
     # works for both player and dropZone!
     if parent.get_parent().get("current_item") == item:
@@ -175,16 +176,16 @@ remotesync func pickup_item(item_path):
 
     current_item = item
     items_in_range.erase(item)
-    
+
     var pos = item.global_position
     parent.remove_child(item)
     front_root.add_child(item)
     item.global_position = pos
     item.tween_to(Vector2(0, 0), false)
-    
+
 remotesync func drop_item(item_path, new_position):
     if !has_node(item_path): return
-    
+
     var item = get_node(item_path)
     if not item:
         print("Drop: %s does not exist. Item is null" % str(item_path))
@@ -192,7 +193,7 @@ remotesync func drop_item(item_path, new_position):
     get_parent().add_child(item)
     current_item = null
     item.global_position = new_position
-    
+
 
 func get_closest_in(arr:Array):
     if arr.size() == 0:
@@ -204,22 +205,34 @@ func get_closest_in(arr:Array):
 func distanceTo(targetNode):
     var a = Vector2(targetNode.position - position)
     return sqrt((a.x * a.x) + (a.y * a.y))
-        
+
 func sort_by_distance(a, b):
     return distanceTo(a) < distanceTo(b)
 
 
 
 func _on_playerDetector_body_entered(body):
-    if body in get_tree().get_nodes_in_group("door"):
+    var is_door = body.is_in_group("door")
+    var is_player = body.is_in_group("player")
+    var is_god = body.is_in_group("god")
+
+    if is_door:
         if is_network_master():
             pass
-    if body in get_tree().get_nodes_in_group("player") or body in get_tree().get_nodes_in_group("god"):
+
+    if is_player or is_god:
         if is_network_master():
+
+            var amplify = body.current_item.knockback_amplify if body.get("current_item") else 1
             var n = (get_center() - body.get_center()).normalized()
-            vel += n * PLAYER_COLLISION_FORCE
-    
-    
+            vel += n * PLAYER_COLLISION_FORCE * amplify
+
+func _on_playerDetector_area_entered(area):
+    var g = area.get_parent()
+    if g.is_in_group("ghost_ant") and g.active:
+        var n = (get_center() - g.get_center()).normalized()
+        vel += n * PLAYER_COLLISION_FORCE
+
 func get_center()->Vector2:
     return sprite_anim.global_position
 
@@ -229,23 +242,25 @@ func get_center()->Vector2:
 func teleport_to_spawn_pos():
     enable_walk = false
     vel = Vector2.ZERO
-    
+
     # Make GHOST
     collision_layer = 0; collision_mask = 0
     $playerDetector.collision_layer = 0; $playerDetector.collision_mask = 0
-    
+
     $TeleportationAnimationPlayer.play("teleport_start")
-    
+
 func _on_AnimationPlayer_animation_finished(anim_name):
     if anim_name == "teleport_start":
         $TeleportationTween.interpolate_property(self, "position", null, spawn_pos, 1.8, Tween.TRANS_CUBIC, Tween.EASE_IN_OUT)
         $TeleportationTween.start()
     if anim_name == "teleport_end":
         enable_walk = true
-        
+
         # undo ghost
         collision_layer = 1; collision_mask = 1
         $playerDetector.collision_layer = 1; $playerDetector.collision_mask = 1
-        
+
 func _on_TeleportationTween_tween_all_completed():
     $TeleportationAnimationPlayer.play("teleport_end")
+
+

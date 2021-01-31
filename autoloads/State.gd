@@ -34,18 +34,19 @@ func _player_connected(id):
     # Registration of a client beings here, tell the connected player that we are here.
     if true_player:
         rpc_id(id, "register_player", player_name)
-        
+
     # send leader id to connected players
     if get_tree().is_network_server():
-        if not leader:
+        if leader == null:
             leader = id
-        rset_id(id, "leader", leader)
+            print("leader is now %d" % leader)
+        rpc_id(id, "set_leader", leader)
 
 
 # Callback from SceneTree.
 func _player_disconnected(id):
     print("Player " + players[id] + " disconnected")
-    
+
     if has_node("/root/World"): # Game is in progress.
         unregister_player(id)
         if len(players) == 0:
@@ -58,7 +59,7 @@ func _player_disconnected(id):
 
 # Callback from SceneTree, only for clients (not server).
 func _connected_ok():
-    # We just connected to a server
+    print("Your unique id is %d" % get_tree().get_network_unique_id())
     emit_signal("connection_succeeded")
 
 
@@ -88,12 +89,27 @@ remote func register_player(new_player_name):
 
 func unregister_player(id):
     players.erase(id)
+    if get_tree().is_network_server() and id == leader:
+        if len(players) > 0:
+            rpc("set_leader", players.keys()[0])
+        else:
+            leader = null
+    emit_signal("player_list_changed")
+
+
+remotesync func set_leader(new_leader):
+    if !get_tree().get_rpc_sender_id() == 1:
+        print("set_leader not from server")
+        return
+
+    leader = new_leader
+    print("leader is %d" % leader)
     emit_signal("player_list_changed")
 
 
 remote func pre_start_game(spawn_points, new_seed):
     Rand.set_seed(new_seed)
-    
+
     # Change scene.
     var world = load("res://scenes/screens/world.tscn").instance()
     get_tree().get_root().add_child(world)
@@ -109,7 +125,7 @@ remote func pre_start_game(spawn_points, new_seed):
     var player_count = 0
     for p_id in spawn_points:
         var player = player_scene.instance()
-        
+
         player.set_name(str(p_id)) # Use unique ID as node name.
         player.position = get_tree().get_nodes_in_group("god")[0].position + Vector2(0, radius).rotated(phi)
         player.spawn_pos = player.position
@@ -122,9 +138,9 @@ remote func pre_start_game(spawn_points, new_seed):
         else:
             # Otherwise set name from peer.
             player.set_player_name(players[p_id])
-        
+
         get_tree().get_nodes_in_group("ysort")[0].add_child(player)
-        
+
         phi += d_phi
         player_count += 1
 
@@ -162,14 +178,14 @@ func host_game(new_player_name):
         peer = NetworkedMultiplayerENet.new()
         peer.create_server(DEFAULT_PORT, MAX_PEERS)
     get_tree().set_network_peer(peer);
-    
+
     if true_player:
         leader = 1
 
-    
+
 func join_game(ip, new_player_name):
     player_name = new_player_name
-    
+
     if USE_WEBSOCKET:
         print("try join websocket")
         peer = WebSocketClient.new();
@@ -194,22 +210,24 @@ func get_player_list():
 func get_player_name():
     return player_name
 
+func can_start_game():
+    return State.leader == get_tree().get_network_unique_id()
 
 remote func begin_game():
     if not get_tree().is_network_server():
         rpc_id(1, "begin_game")
         return
-        
-    #if get_tree().get_rpc_sender_id() != leader:
-    #    print("%s is trying to start the game bus is not the leader" % players[get_tree().get_rpc_sender_id()])
-    #    return
-    
+
+    if get_tree().get_rpc_sender_id() != leader:
+        print("%d is trying to start the game bus is not the leader" % get_tree().get_rpc_sender_id())
+        #return
+
     print("Beginning new game")
-    
+
     # Create a dictionary with peer id and respective spawn points, could be improved by randomizing.
     var spawn_points = {}
     var spawn_point_idx = 0
-    
+
     if true_player: # TODO flag for adding server to players
         spawn_points[1] = spawn_point_idx # Server in spawn point 0.
         spawn_point_idx += 1
@@ -218,7 +236,7 @@ remote func begin_game():
         spawn_points[p] = spawn_point_idx
         spawn_point_idx += 1
     # Call to pre-start game with the spawn points.
-    
+
     randomize() # seed
     var new_seed = randi()
     for p in players:
@@ -244,7 +262,7 @@ func _ready():
     get_tree().connect("connected_to_server", self, "_connected_ok")
     get_tree().connect("connection_failed", self, "_connected_fail")
     get_tree().connect("server_disconnected", self, "_server_disconnected")
-    
+
     if "--server" in OS.get_cmdline_args():
         true_player = false
         print("Headless server started")
@@ -257,7 +275,7 @@ func _process(delta):
     if peer and not get_tree().is_network_server() and (peer.get_connection_status() == NetworkedMultiplayerPeer.CONNECTION_CONNECTED ||
         peer.get_connection_status() == NetworkedMultiplayerPeer.CONNECTION_CONNECTING):
         peer.poll();
-        
+
     if has_node("/root/World") and (!peer or peer.get_connection_status() == NetworkedMultiplayerPeer.CONNECTION_DISCONNECTED):
         emit_signal("game_error", "Got disconnected")
         end_game()

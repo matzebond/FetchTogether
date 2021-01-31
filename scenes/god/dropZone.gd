@@ -52,11 +52,15 @@ func play_score_animation():
     # In case reveal animation is still playing, reset
     if $AnimationPlayer.is_playing():
         $AnimationPlayer.reset()
-
-    $AnimationPlayer.play("show_score_won" if won else "show_score_lost")
+        
     if won:
+        $AnimationPlayer.play("show_score_won")
+        $Yes.play()
         for ui in get_tree().get_nodes_in_group("ui"):
             ui.addPoint()
+    else:
+        $AnimationPlayer.play("show_score_lost")
+        $No.play()
 
 
 func clear_and_free():

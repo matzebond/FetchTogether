@@ -108,7 +108,10 @@ func refresh_lobby():
     for p in players:
         listPlayers.add_item(p)
 
-    if State.leader != get_tree().get_network_unique_id():
+    if State.can_start_game():
+        btnStart.disabled = false
+        btnStart.text = "Start"
+    else:
         btnStart.disabled = true
         btnStart.text = "Waiting..."
 

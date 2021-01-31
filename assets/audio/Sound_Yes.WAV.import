@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/Sound_Yes.WAV-b56e2dfb520d4dc278377fe139070d1e.sample"
+
+[deps]
+
+source_file="res://assets/audio/Sound_Yes.WAV"
+dest_files=[ "res://.import/Sound_Yes.WAV-b56e2dfb520d4dc278377fe139070d1e.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0
