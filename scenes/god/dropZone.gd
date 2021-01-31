@@ -26,9 +26,6 @@ remotesync func receive_item(item_path):
         
     _set_current_item(item)
 
-func play_category_reveal_animation():
-    $AnimationPlayer.play("reveal_category")
-
 func has_item():
     return current_item != null
     
@@ -41,4 +38,20 @@ func _set_category(v):
     $Label.text = G.ItemCategory.keys()[v]
     $Label.rect_pivot_offset = $Label.rect_size / 2
     
+
+func play_category_reveal_animation():
+    $AnimationPlayer.play("reveal_category")
+    
+func play_score_animation():
+    var won = false
+    
+    if current_item:
+        if category in current_item.item_categories:
+            won = true
+    
+    # In case reveal animation is still playing, reset
+    if $AnimationPlayer.is_playing():
+        $AnimationPlayer.reset()
+        
+    $AnimationPlayer.play("show_score_won" if won else "show_score_lost")
     

@@ -245,11 +245,6 @@ position = Vector2( -192, 673 )
 texture = ExtResource( 3 )
 offset = Vector2( 0, -32 )
 
-[node name="Sprite9" type="Sprite" parent="N/YSort/ItemSpawnPositions"]
-position = Vector2( -192, 673 )
-texture = ExtResource( 3 )
-offset = Vector2( 0, -32 )
-
 [node name="Sprite5" type="Sprite" parent="N/YSort/ItemSpawnPositions"]
 position = Vector2( -320, 833 )
 texture = ExtResource( 3 )

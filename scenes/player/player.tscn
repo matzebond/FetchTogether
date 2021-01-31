@@ -21,7 +21,6 @@ font_data = ExtResource( 3 )
 
 [sub_resource type="Animation" id=6]
 resource_name = "teleport_end"
-loop = true
 tracks/0/type = "value"
 tracks/0/path = NodePath("YSort/spriteAnim:scale")
 tracks/0/interp = 2

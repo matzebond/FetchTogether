@@ -51,9 +51,12 @@ remotesync func end_level():
     for drop_zone in drop_zones:
         if drop_zone.has_item():
            drop_zone.current_item.disable()
-        
+
+    # Start player teleportation
     for player in get_tree().get_nodes_in_group("player"):
         player.teleport_to_spawn_pos()
+    
+    start_showing_score()
 
 func get_center()->Vector2:
     return global_position
@@ -62,11 +65,10 @@ func set_players_enable_walk(enable:bool):
     for player in get_tree().get_nodes_in_group("player"):
         player.enable_walk = enable
     
-var next_reveal_drop_zone_id = 0
+var next_reveal_drop_zone_id
 func start_revealing_categories():
     next_reveal_drop_zone_id = -1
     $CategoryRevealTimer.start()
-    
 func _on_CategoryRevealTimer_timeout():
     # Cancel on end, allow Players to walk
     if next_reveal_drop_zone_id >= drop_zones.size():
@@ -79,3 +81,21 @@ func _on_CategoryRevealTimer_timeout():
         drop_zones[next_reveal_drop_zone_id].play_category_reveal_animation()
     
     next_reveal_drop_zone_id += 1
+
+var next_score_drop_zone_id
+func start_showing_score():
+    next_score_drop_zone_id = -1
+    $ScoreShowTimer.start(3.2)
+func _on_ScoreShowTimer_timeout():
+    # On first iteration
+    if next_score_drop_zone_id == -1:
+        $ScoreShowTimer.stop()
+        $ScoreShowTimer.start(1.5)
+    # On last iteration
+    elif next_score_drop_zone_id >= drop_zones.size():
+        $ScoreShowTimer.stop()
+    # On iteration
+    else:
+        drop_zones[next_score_drop_zone_id].play_score_animation()
+        
+    next_score_drop_zone_id += 1

@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://scenes/god/dropZone.gd" type="Script" id=1]
 [ext_resource path="res://assets/items/dummy.png" type="Texture" id=2]
@@ -51,6 +51,63 @@ tracks/2/keys = {
 "values": [ Vector2( 1, 1 ), Vector2( 1.5, 1.5 ), Vector2( 1, 1 ) ]
 }
 
+[sub_resource type="Animation" id=4]
+resource_name = "show_score_lost"
+length = 2.0
+tracks/0/type = "value"
+tracks/0/path = NodePath("Label:modulate:a")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.3, 1.3, 2 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ 0.0, 1.0, 1.0, 0.0 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Label:text")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ "NO" ]
+}
+
+[sub_resource type="Animation" id=5]
+resource_name = "show_score_won"
+length = 2.0
+tracks/0/type = "value"
+tracks/0/path = NodePath("Label:modulate:a")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.3, 1.3, 2 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ 0.0, 1.0, 1.0, 0.0 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Label:text")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ "YES
+" ]
+}
+
 [node name="dropZone" type="Node2D"]
 script = ExtResource( 1 )
 
@@ -78,7 +135,7 @@ margin_bottom = 16.0
 grow_horizontal = 2
 rect_pivot_offset = Vector2( 48, 15 )
 custom_fonts/font = SubResource( 3 )
-text = "Text"
+text = "NO"
 align = 1
 __meta__ = {
 "_edit_use_anchors_": false
@@ -86,3 +143,5 @@ __meta__ = {
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/reveal_category = SubResource( 2 )
+anims/show_score_lost = SubResource( 4 )
+anims/show_score_won = SubResource( 5 )

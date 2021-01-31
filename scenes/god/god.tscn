@@ -39,5 +39,8 @@ frame = 5
 playing = true
 
 [node name="CategoryRevealTimer" type="Timer" parent="."]
-wait_time = 2.5
+wait_time = 2.0
+
+[node name="ScoreShowTimer" type="Timer" parent="."]
 [connection signal="timeout" from="CategoryRevealTimer" to="." method="_on_CategoryRevealTimer_timeout"]
+[connection signal="timeout" from="ScoreShowTimer" to="." method="_on_ScoreShowTimer_timeout"]
