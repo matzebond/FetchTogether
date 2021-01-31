@@ -20,6 +20,7 @@ const PLAYER_COLLISION_FORCE = 1000
 
 var current_anim = ""
 var current_item
+var player_id = 0
 
 var spawn_pos
 
@@ -32,10 +33,9 @@ func zoom_out_camera(zoom_out=true):
 
 func _ready():
     puppet_pos = position
-
-    var id = self.get_index() + 1
-    var frames = load("res://assets/char/player" + str(id) +".tres")
-    sprite_anim.set_sprite_frames(frames)
+    if player_id > 0:
+        var frames = load("res://assets/char/player" + str(player_id) +".tres")
+        sprite_anim.set_sprite_frames(frames)
 
 func _process(delta):
     if is_network_master():
@@ -123,7 +123,7 @@ func _physics_process(delta):
         rset("puppet_pos", position)
     else:
         puppet_pos = position # To avoid jitter
-
+    
 func set_player_name(new_name):
     get_node("label").set_text(new_name)
 

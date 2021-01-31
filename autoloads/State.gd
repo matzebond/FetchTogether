@@ -131,6 +131,7 @@ remote func pre_start_game(spawn_points, new_seed):
         player.spawn_pos = player.position
         player.set_network_master(p_id) #set unique id as master.
         player.set_collision_layer_bit(player_count + 1, true)
+        player.player_id = player_count + 1
 
         if p_id == get_tree().get_network_unique_id():
             # If node for this peer id, set name.
