@@ -21,6 +21,19 @@ enum ItemCategory {
     Sport
 }
 
+const CATEGORY_TO_FILE = {
+ItemCategory.Soft : preload("res://assets/audio/soft.WAV"),
+ItemCategory.Food : preload("res://assets/audio/yummy.WAV"),
+ItemCategory.Dangerous : preload("res://assets/audio/dangerous.WAV"),
+ItemCategory.Colorful : preload("res://assets/audio/Colorful.WAV"),
+ItemCategory.Heavy : preload("res://assets/audio/heavy.WAV"),
+ItemCategory.KidsLoveIt : preload("res://assets/audio/kidsLoveIt.WAV"),
+ItemCategory.Shiny : preload("res://assets/audio/shiny.WAV"),
+ItemCategory.Fun : preload("res://assets/audio/fun.WAV"),
+ItemCategory.MyFavorite : preload("res://assets/audio/myFavorite.WAV")
+}
+#var path = G.CATEGORY_TO_FILE[category]
+
 const ItemCategoryProbabilities = [
     ItemCategory.Soft, ItemCategory.Soft, ItemCategory.Soft,
     ItemCategory.Food, ItemCategory.Food, ItemCategory.Food,

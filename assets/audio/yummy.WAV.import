@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/yummy.WAV-24188c94f2e09a77917c8e5eaf50db61.sample"
+
+[deps]
+
+source_file="res://assets/audio/yummy.WAV"
+dest_files=[ "res://.import/yummy.WAV-24188c94f2e09a77917c8e5eaf50db61.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

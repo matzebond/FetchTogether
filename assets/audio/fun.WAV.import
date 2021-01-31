@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/fun.WAV-96ea0ea4fe689c5600d0c366cd8a4170.sample"
+
+[deps]
+
+source_file="res://assets/audio/fun.WAV"
+dest_files=[ "res://.import/fun.WAV-96ea0ea4fe689c5600d0c366cd8a4170.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0
