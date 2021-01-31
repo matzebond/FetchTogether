@@ -97,7 +97,7 @@ remote func pre_start_game(spawn_points, new_seed):
 
     var d_phi = 2 * PI / spawn_points.size()
     var phi = 0
-    var radius = 240 + spawn_points.size()*7
+    var radius = 260 + spawn_points.size()*7
     for p_id in spawn_points:
         
         var player = player_scene.instance()

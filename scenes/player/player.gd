@@ -22,7 +22,7 @@ var current_item
 
 var spawn_pos
 
-var enable_walk = true
+var enable_walk = G.IS_DEBUG
 
 func _ready():
     puppet_pos = position

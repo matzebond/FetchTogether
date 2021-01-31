@@ -33,6 +33,9 @@ func after_ready():
         drop_zones.append(drop_zone)
         
         phi += d_phi
+        
+    start_revealing_categories()
+        
 
 func _on_dropZone_item_changed():
     if is_network_master():
@@ -54,5 +57,25 @@ remotesync func end_level():
 
 func get_center()->Vector2:
     return global_position
+
+func set_players_enable_walk(enable:bool):
+    for player in get_tree().get_nodes_in_group("player"):
+        player.enable_walk = enable
     
+var next_reveal_drop_zone_id = 0
+func start_revealing_categories():
+    next_reveal_drop_zone_id = -1
+    $CategoryRevealTimer.start()
     
+func _on_CategoryRevealTimer_timeout():
+    # Cancel on end, allow Players to walk
+    if next_reveal_drop_zone_id >= drop_zones.size():
+        $CategoryRevealTimer.stop()
+        set_players_enable_walk(true)
+        return
+    
+    # First iteration is -1
+    if next_reveal_drop_zone_id >= 0:
+        drop_zones[next_reveal_drop_zone_id].play_category_reveal_animation()
+    
+    next_reveal_drop_zone_id += 1

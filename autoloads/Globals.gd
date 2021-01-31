@@ -1,5 +1,9 @@
 extends Node
 
+# When true:
+#       Initially allow walking
+const IS_DEBUG = false
+
 enum Orientation {
     N, E, S, W
 }

@@ -53,9 +53,9 @@ shape = SubResource( 3 )
 
 [node name="label" type="Label" parent="."]
 margin_left = -82.0
-margin_top = -132.0
+margin_top = -121.0
 margin_right = 85.0
-margin_bottom = -111.0
+margin_bottom = -100.0
 size_flags_horizontal = 2
 size_flags_vertical = 0
 custom_fonts/font = SubResource( 4 )

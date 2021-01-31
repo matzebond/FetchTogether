@@ -28,12 +28,16 @@ animations = [ {
 script = ExtResource( 4 )
 
 [node name="shape" type="CollisionShape2D" parent="."]
-position = Vector2( 2.99664, -1.52588e-05 )
+position = Vector2( 3, 0 )
 rotation = 1.5708
 shape = SubResource( 1 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 frames = SubResource( 2 )
 animation = "talk"
-frame = 6
+frame = 5
 playing = true
+
+[node name="CategoryRevealTimer" type="Timer" parent="."]
+wait_time = 2.5
+[connection signal="timeout" from="CategoryRevealTimer" to="." method="_on_CategoryRevealTimer_timeout"]

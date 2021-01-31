@@ -26,6 +26,9 @@ remotesync func receive_item(item_path):
         
     _set_current_item(item)
 
+func play_category_reveal_animation():
+    $AnimationPlayer.play("reveal_category")
+
 func has_item():
     return current_item != null
     
@@ -36,5 +39,6 @@ func _set_current_item(v):
 func _set_category(v):
     category = v
     $Label.text = G.ItemCategory.keys()[v]
+    $Label.rect_pivot_offset = $Label.rect_size / 2
     
     
