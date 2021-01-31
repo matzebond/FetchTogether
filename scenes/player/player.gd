@@ -93,15 +93,35 @@ var drop_zones_in_range = []
 func _on_ItemPickup_area_entered(area):
     if area in get_tree().get_nodes_in_group("item"):
         items_in_range.append(area.get_parent())
+        update_item_highlights()
     if area in get_tree().get_nodes_in_group("drop_zone"):
         drop_zones_in_range.append(area.get_parent())
 
 func _on_ItemPickup_area_exited(area):
     if area in get_tree().get_nodes_in_group("item"):
         items_in_range.erase(area.get_parent())
+        update_item_highlights()
     if area in get_tree().get_nodes_in_group("drop_zone"):
         drop_zones_in_range.erase(area.get_parent())
+
+var cur_highlighted_item = null
+func update_item_highlights():
+    if current_item:
+        if cur_highlighted_item != current_item:
+            cur_highlighted_item.set_highlight(false)
+        current_item.set_highlight(true)
+        return
     
+    var closest = get_closest_in(items_in_range)
+    
+    if cur_highlighted_item and cur_highlighted_item != closest:
+        cur_highlighted_item.set_highlight(false)
+    
+    if closest and cur_highlighted_item != closest:
+        closest.set_highlight(true)
+    
+    cur_highlighted_item = closest
+
 remotesync func pickup_item(item_path):
     if !has_node(item_path): return
     

@@ -4,7 +4,7 @@
 [ext_resource path="res://scenes/items/item.tscn" type="PackedScene" id=2]
 [ext_resource path="res://scenes/items/AnimationPlayerAutoStart.gd" type="Script" id=3]
 
-[sub_resource type="SpriteFrames" id=1]
+[sub_resource type="SpriteFrames" id=6]
 resource_local_to_scene = true
 animations = [ {
 "frames": [ ExtResource( 1 ) ],
@@ -13,7 +13,7 @@ animations = [ {
 "speed": 5.0
 } ]
 
-[sub_resource type="RectangleShape2D" id=2]
+[sub_resource type="RectangleShape2D" id=7]
 resource_local_to_scene = true
 extents = Vector2( 32, 32 )
 
@@ -38,11 +38,11 @@ tracks/0/keys = {
 
 [node name="animSprite" parent="." index="0"]
 position = Vector2( 0, 20 )
-frames = SubResource( 1 )
+frames = SubResource( 6 )
 offset = Vector2( 0, -20 )
 
 [node name="CollisionShape2D" parent="pickupArea" index="0"]
-shape = SubResource( 2 )
+shape = SubResource( 7 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." index="2"]
 anims/anim = SubResource( 3 )
