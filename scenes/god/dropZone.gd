@@ -41,14 +41,9 @@ func _set_category(v):
     $category.stream = G.CATEGORY_TO_FILE[category]
     
     
-    
-    
-    
 func play_category_reveal_animation():
-    print("category")
     $category.play()
     $AnimationPlayer.play("reveal_category")
-    AudioStreamPlayer2D 
 
 func play_score_animation():
     var won = false
