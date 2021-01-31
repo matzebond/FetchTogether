@@ -218,7 +218,7 @@ remote func begin_game():
         
     if get_tree().get_rpc_sender_id() != leader:
         print("%d is trying to start the game bus is not the leader" % get_tree().get_rpc_sender_id())
-        return
+        #return
     
     print("Beginning new game")
     
