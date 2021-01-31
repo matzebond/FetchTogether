@@ -32,6 +32,17 @@ ItemCategory.Shiny : preload("res://assets/audio/shiny.WAV"),
 ItemCategory.Fun : preload("res://assets/audio/fun.WAV"),
 ItemCategory.MyFavorite : preload("res://assets/audio/myFavorite.WAV")
 }
+const CATEGORY_TO_PRETTY = {
+ItemCategory.Soft : "Soft",
+ItemCategory.Food : "Yummy",
+ItemCategory.Dangerous : "Dangerous",
+ItemCategory.Colorful : "Colorful",
+ItemCategory.Heavy : "Heavy",
+ItemCategory.KidsLoveIt : "Kids love it",
+ItemCategory.Shiny : "Shiny",
+ItemCategory.Fun : "Fun",
+ItemCategory.MyFavorite : "My favorite"
+}
 #var path = G.CATEGORY_TO_FILE[category]
 
 const ItemCategoryProbabilities = [

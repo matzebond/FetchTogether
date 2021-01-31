@@ -10,6 +10,7 @@ func _ready():
         $AnimationPlayer.play("anim")
     
     $animSprite.material = $animSprite.material.duplicate()
+    $animSprite.playing = true
 
 func tween_to(pos:Vector2, global=true):
     var prop = "global_position" if global else "position"

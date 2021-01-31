@@ -35,20 +35,15 @@ func _set_current_item(v):
 
 func _set_category(v):
     category = v
-    $Label.text = G.ItemCategory.keys()[v]
+    $Label.text = G.CATEGORY_TO_PRETTY[v]
     $Label.rect_pivot_offset = $Label.rect_size / 2
     
     $category.stream = G.CATEGORY_TO_FILE[category]
     
     
-    
-    
-    
 func play_category_reveal_animation():
-    print("category")
     $category.play()
     $AnimationPlayer.play("reveal_category")
-    AudioStreamPlayer2D 
 
 func play_score_animation():
     var won = false

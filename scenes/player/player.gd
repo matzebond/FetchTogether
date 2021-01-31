@@ -258,8 +258,6 @@ func _on_AnimationPlayer_animation_finished(anim_name):
         $TeleportationTween.interpolate_property(self, "position", null, spawn_pos, 1.8, Tween.TRANS_CUBIC, Tween.EASE_IN_OUT)
         $TeleportationTween.start()
     if anim_name == "teleport_end":
-        enable_walk = true
-
         # undo ghost
         collision_layer = c_layer_temp
         collision_mask = c_mask_temp
