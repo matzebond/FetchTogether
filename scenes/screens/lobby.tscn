@@ -117,7 +117,6 @@ rect_min_size = Vector2( 64, 64 )
 [node name="animSprite" type="AnimatedSprite" parent="Connect/VBoxContainer/CenterContainer/Control"]
 position = Vector2( 32, 32 )
 frames = SubResource( 1 )
-frame = 2
 playing = true
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Connect/VBoxContainer/CenterContainer/Control"]
