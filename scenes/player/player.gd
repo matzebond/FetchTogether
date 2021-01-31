@@ -29,7 +29,7 @@ func _process(delta):
                     rpc("pickup_item",item.get_path())
             else:
                 var item = current_item
-                rpc("drop_item", item.get_path())
+                rpc("drop_item", item.get_path(), front_root.global_position)
                 
                 var drop_zone = get_closest_in(drop_zones_in_range)
                 if drop_zone:
@@ -120,7 +120,7 @@ remotesync func pickup_item(item_path):
     front_root.add_child(item)
     item.position = Vector2(0, 0)
     
-remotesync func drop_item(item_path):
+remotesync func drop_item(item_path, new_position):
     if !has_node(item_path): return
     
     var item = get_node(item_path)
@@ -129,7 +129,7 @@ remotesync func drop_item(item_path):
     front_root.remove_child(item)
     world.add_child(item)
     current_item = null
-    item.position = position + front_root.position
+    item.global_position = new_position
     
 
 func get_closest_in(arr:Array):
