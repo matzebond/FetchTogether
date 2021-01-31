@@ -237,14 +237,18 @@ func get_center()->Vector2:
     return sprite_anim.global_position
 
 
-
+var c_layer_temp
+var c_mask_temp
 
 func teleport_to_spawn_pos():
     enable_walk = false
     vel = Vector2.ZERO
 
     # Make GHOST
-    collision_layer = 0; collision_mask = 0
+    c_layer_temp = collision_layer
+    collision_layer = 0
+    c_mask_temp = collision_mask
+    collision_mask = 0
     $playerDetector.collision_layer = 0; $playerDetector.collision_mask = 0
 
     $TeleportationAnimationPlayer.play("teleport_start")
@@ -257,7 +261,8 @@ func _on_AnimationPlayer_animation_finished(anim_name):
         enable_walk = true
 
         # undo ghost
-        collision_layer = 1; collision_mask = 1
+        collision_layer = c_layer_temp
+        collision_mask = c_mask_temp
         $playerDetector.collision_layer = 1; $playerDetector.collision_mask = 1
 
 func _on_TeleportationTween_tween_all_completed():
