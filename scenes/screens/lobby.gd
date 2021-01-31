@@ -17,6 +17,8 @@ onready var btnStart = $Players/Start
 onready var listPlayers = $Players/List
 
 func _ready():
+    OS.center_window()
+    
     # Called every time the node is added to the scene.
     State.connect("connection_failed", self, "_on_connection_failed")
     State.connect("connection_succeeded", self, "_on_connection_success")

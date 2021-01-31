@@ -26,6 +26,11 @@ Rand="*res://autoloads/Rand.gd"
 ItemLoader="*res://autoloads/ItemLoader.gd"
 G="*res://autoloads/Globals.gd"
 
+[display]
+
+window/size/width=1200
+window/size/height=800
+
 [input]
 
 move_left={
