@@ -314,43 +314,43 @@ position = Vector2( 32, -640 )
 flip_h = true
 
 [node name="ItemSpawnPositions" type="YSort" parent="S/YSort"]
-position = Vector2( 32, -255 )
 
 [node name="Sprite" type="Sprite" parent="S/YSort/ItemSpawnPositions"]
+position = Vector2( 32, -255 )
 texture = ExtResource( 3 )
 offset = Vector2( 0, -32 )
 
 [node name="Sprite2" type="Sprite" parent="S/YSort/ItemSpawnPositions"]
-position = Vector2( -320, -160 )
+position = Vector2( -288, -415 )
 texture = ExtResource( 3 )
 offset = Vector2( 0, -32 )
 
 [node name="Sprite3" type="Sprite" parent="S/YSort/ItemSpawnPositions"]
-position = Vector2( -352, -480 )
+position = Vector2( -320, -735 )
 texture = ExtResource( 3 )
 offset = Vector2( 0, -32 )
 
 [node name="Sprite4" type="Sprite" parent="S/YSort/ItemSpawnPositions"]
-position = Vector2( -256, -288 )
+position = Vector2( -224, -543 )
 texture = ExtResource( 3 )
 offset = Vector2( 0, -32 )
 
 [node name="Sprite5" type="Sprite" parent="S/YSort/ItemSpawnPositions"]
-position = Vector2( 320, -416 )
+position = Vector2( 352, -671 )
 texture = ExtResource( 3 )
 offset = Vector2( 0, -32 )
 
 [node name="Sprite6" type="Sprite" parent="S/YSort/ItemSpawnPositions"]
-position = Vector2( 352, -224 )
+position = Vector2( 384, -479 )
 texture = ExtResource( 3 )
 offset = Vector2( 0, -32 )
 
 [node name="Sprite7" type="Sprite" parent="S/YSort/ItemSpawnPositions"]
-position = Vector2( 352, 160 )
+position = Vector2( 384, -95 )
 texture = ExtResource( 3 )
 offset = Vector2( 0, -32 )
 
 [node name="Sprite8" type="Sprite" parent="S/YSort/ItemSpawnPositions"]
-position = Vector2( 0, -352 )
+position = Vector2( 32, -607 )
 texture = ExtResource( 3 )
 offset = Vector2( 0, -32 )
