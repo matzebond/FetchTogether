@@ -7,9 +7,15 @@ onready var world = get_node("/root/World")
 onready var tween:Tween = $Tween
 
 puppet var puppet_pos = Vector2()
-puppet var puppet_motion = Vector2()
+puppet var puppet_vel = Vector2()
 
-const MOTION_SPEED = 220.0
+var vel = Vector2()
+
+const STOP_ACCEL = 1400.0
+const ACCEL = 3300.0
+const MAX_VEL = 400.0
+
+const PLAYER_COLLISION_FORCE = 800
 
 var current_anim = ""
 var current_item
@@ -36,59 +42,75 @@ func _process(delta):
                 if drop_zone:
                     drop_zone.rpc("receive_item", item.get_path())
 
-func _physics_process(_delta):
-    var motion = Vector2()
+func _physics_process(delta):
 
     if is_network_master():
         camera.current = true
+        
+        # Apply stop force
+        if vel.x > 0:   vel.x = max(0, vel.x - STOP_ACCEL*delta)
+        if vel.x < 0:   vel.x = min(0, vel.x + STOP_ACCEL*delta)
+        if vel.y > 0:   vel.y = max(0, vel.y - STOP_ACCEL*delta)
+        if vel.y < 0:   vel.y = min(0, vel.y + STOP_ACCEL*delta)
 
+        # Apply acceleration onto velocity (if not max)
+        var dVel = delta * ACCEL
         if Input.is_action_pressed("move_left"):
-            motion += Vector2(-1, 0)
+            var dVelToMax = max(0, MAX_VEL + vel.x)
+            vel.x -= min(dVel, dVelToMax)
         if Input.is_action_pressed("move_right"):
-            motion += Vector2(1, 0)
+            var dVelToMax = max(0, MAX_VEL - vel.x)
+            vel.x += min(dVel, dVelToMax)
         if Input.is_action_pressed("move_up"):
-            motion += Vector2(0, -1)
+            var dVelToMax = max(0, MAX_VEL + vel.y)
+            vel.y -= min(dVel, dVelToMax)
         if Input.is_action_pressed("move_down"):
-            motion += Vector2(0, 1)
-
-        rset("puppet_motion", motion)
-        rset("puppet_pos", position)
+            var dVelToMax = max(0, MAX_VEL - vel.y)
+            vel.y += min(dVel, dVelToMax)
     else:
         position = puppet_pos
-        motion = puppet_motion
+        vel = puppet_vel
 
     var new_anim = null
     var front_root_pos = front_root.position
-    if motion.y < 0:
-        new_anim = "walk_up"
-        front_root_pos = Vector2(0, -88)
-    elif motion.y > 0:
-        new_anim = "walk_down"
-        front_root_pos = Vector2(0,52)
-    elif motion.x < 0:
-        new_anim = "walk_side"
-        front_root_pos = Vector2(-70, -18)
-        sprite_anim.flip_h = false
-    elif motion.x > 0:
-        new_anim = "walk_side"
-        front_root_pos = Vector2(70, -18)
-        sprite_anim.flip_h = true
-        
+    if abs(vel.y) > abs(vel.x):
+        if vel.y < 0:
+            new_anim = "walk_up"
+            front_root_pos = Vector2(0, -88)
+        elif vel.y > 0:
+            new_anim = "walk_down"
+            front_root_pos = Vector2(0,52)
+    else:
+        if vel.x < 0:
+            new_anim = "walk_side"
+            front_root_pos = Vector2(-70, -18)
+            sprite_anim.flip_h = false
+        if vel.x > 0:
+            new_anim = "walk_side"
+            front_root_pos = Vector2(70, -18)
+            sprite_anim.flip_h = true
+    
+    # Animate front root
     if front_root_pos != front_root.position:
         tween.interpolate_property(front_root, "position", null, front_root_pos, 0.2, Tween.TRANS_CUBIC, Tween.EASE_OUT)
         tween.start()
 
+    # Switch animation
     if new_anim and new_anim != current_anim:
         current_anim = new_anim
         sprite_anim.play(new_anim)
     
-    var is_walking = motion != Vector2.ZERO
+    # Scale animation speed
+    var is_walking = vel != Vector2.ZERO
     sprite_anim.speed_scale = 1 if is_walking else 0
-    if !is_walking:
-        sprite_anim.frame = 0
+    if !is_walking: sprite_anim.frame = 0
 
-    move_and_slide(motion * MOTION_SPEED)
-    if not is_network_master():
+    vel = move_and_slide(vel)
+    
+    if is_network_master():
+        rset("puppet_vel", vel)
+        rset("puppet_pos", position)
+    else:
         puppet_pos = position # To avoid jitter
 
 func set_player_name(new_name):
@@ -174,3 +196,16 @@ func distanceTo(targetNode):
         
 func sort_by_distance(a, b):
     return distanceTo(a) < distanceTo(b)
+
+
+
+func _on_playerDetector_body_entered(body):
+    if body in get_tree().get_nodes_in_group("player"):
+        if is_network_master():
+            var n = (get_center() - body.get_center()).normalized()
+            vel += n * PLAYER_COLLISION_FORCE
+    
+    
+func get_center()->Vector2:
+    return sprite_anim.global_position
+    
