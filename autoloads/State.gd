@@ -94,12 +94,17 @@ remote func pre_start_game(spawn_points, new_seed):
 
     var player_scene = load("res://scenes/player/player.tscn")
 
-    for p_id in spawn_points:
-        var spawn_pos = world.get_node("SpawnPoints/" + str(spawn_points[p_id])).global_position
-        var player = player_scene.instance()
 
+    var d_phi = 2 * PI / spawn_points.size()
+    var phi = 0
+    var radius = 240 + spawn_points.size()*7
+    for p_id in spawn_points:
+        
+        var player = player_scene.instance()
+        
         player.set_name(str(p_id)) # Use unique ID as node name.
-        player.position=spawn_pos
+        player.position = get_tree().get_nodes_in_group("god")[0].position + Vector2(0, radius).rotated(phi)
+        player.spawn_pos = player.position
         player.set_network_master(p_id) #set unique id as master.
 
         if p_id == get_tree().get_network_unique_id():
@@ -108,8 +113,10 @@ remote func pre_start_game(spawn_points, new_seed):
         else:
             # Otherwise set name from peer.
             player.set_player_name(players[p_id])
-
+        
         get_tree().get_nodes_in_group("ysort")[0].add_child(player)
+        
+        phi += d_phi
 
     # Set up score.
     world.get_node("Score").add_player(get_tree().get_network_unique_id(), player_name)

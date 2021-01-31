@@ -15,10 +15,14 @@ const STOP_ACCEL = 1400.0
 const ACCEL = 3300.0
 const MAX_VEL = 400.0
 
-const PLAYER_COLLISION_FORCE = 800
+const PLAYER_COLLISION_FORCE = 1000
 
 var current_anim = ""
 var current_item
+
+var spawn_pos
+
+var enable_walk = true
 
 func _ready():
     puppet_pos = position
@@ -32,7 +36,7 @@ func _process(delta):
         if Input.is_action_just_released("interact"):
             if !current_item:
                 var item = get_closest_in(items_in_range)
-                if item:
+                if item and !item.disabled:
                     rpc("pickup_item",item.get_path())
             else:
                 var item = current_item
@@ -42,6 +46,10 @@ func _process(delta):
                 if drop_zone:
                     drop_zone.rpc("receive_item", item.get_path())
 
+func teleport_to_spawn_pos():
+    position = spawn_pos
+    vel = Vector2.ZERO
+    
 func _physics_process(delta):
 
     if is_network_master():
@@ -55,18 +63,19 @@ func _physics_process(delta):
 
         # Apply acceleration onto velocity (if not max)
         var dVel = delta * ACCEL
-        if Input.is_action_pressed("move_left"):
-            var dVelToMax = max(0, MAX_VEL + vel.x)
-            vel.x -= min(dVel, dVelToMax)
-        if Input.is_action_pressed("move_right"):
-            var dVelToMax = max(0, MAX_VEL - vel.x)
-            vel.x += min(dVel, dVelToMax)
-        if Input.is_action_pressed("move_up"):
-            var dVelToMax = max(0, MAX_VEL + vel.y)
-            vel.y -= min(dVel, dVelToMax)
-        if Input.is_action_pressed("move_down"):
-            var dVelToMax = max(0, MAX_VEL - vel.y)
-            vel.y += min(dVel, dVelToMax)
+        if enable_walk:
+            if Input.is_action_pressed("move_left"):
+                var dVelToMax = max(0, MAX_VEL + vel.x)
+                vel.x -= min(dVel, dVelToMax)
+            if Input.is_action_pressed("move_right"):
+                var dVelToMax = max(0, MAX_VEL - vel.x)
+                vel.x += min(dVel, dVelToMax)
+            if Input.is_action_pressed("move_up"):
+                var dVelToMax = max(0, MAX_VEL + vel.y)
+                vel.y -= min(dVel, dVelToMax)
+            if Input.is_action_pressed("move_down"):
+                var dVelToMax = max(0, MAX_VEL - vel.y)
+                vel.y += min(dVel, dVelToMax)
     else:
         position = puppet_pos
         vel = puppet_vel
@@ -201,7 +210,7 @@ func sort_by_distance(a, b):
 
 
 func _on_playerDetector_body_entered(body):
-    if body in get_tree().get_nodes_in_group("player"):
+    if body in get_tree().get_nodes_in_group("player") or body in get_tree().get_nodes_in_group("god"):
         if is_network_master():
             var n = (get_center() - body.get_center()).normalized()
             vel += n * PLAYER_COLLISION_FORCE

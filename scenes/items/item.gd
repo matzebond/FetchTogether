@@ -18,3 +18,9 @@ func set_highlight(active:bool):
     if self.active != active:
         $ShaderAnimator.play("start" if active else "end")
         self.active = active
+
+var disabled = false
+func disable():
+    $pickupArea.monitorable = false
+    $pickupArea.monitoring = false
+    disabled = true

@@ -24,11 +24,14 @@ remotesync func receive_item(item_path):
         current_item.global_position = pos
         current_item.tween_to(global_position + position)
         
-    current_item = item
+    _set_current_item(item)
 
+func has_item():
+    return current_item != null
+    
 func _set_current_item(v):
     current_item = v
-    emit_signal("item_changed", v)
+    emit_signal("item_changed")
 
 func _set_category(v):
     category = v

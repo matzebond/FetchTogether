@@ -6,7 +6,7 @@
 [ext_resource path="res://scenes/god/god.gd" type="Script" id=4]
 
 [sub_resource type="CapsuleShape2D" id=1]
-radius = 78.4357
+radius = 70.5897
 height = 22.4746
 
 [sub_resource type="SpriteFrames" id=2]
@@ -22,7 +22,9 @@ animations = [ {
 "speed": 5.0
 } ]
 
-[node name="God" type="StaticBody2D"]
+[node name="God" type="StaticBody2D" groups=[
+"god",
+]]
 script = ExtResource( 4 )
 
 [node name="shape" type="CollisionShape2D" parent="."]
@@ -33,5 +35,5 @@ shape = SubResource( 1 )
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 frames = SubResource( 2 )
 animation = "talk"
-frame = 3
+frame = 6
 playing = true
