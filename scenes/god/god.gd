@@ -24,6 +24,7 @@ func after_ready():
         
         # Initialize DropZone
         var drop_zone = DropZone.instance()
+        drop_zone.name = "drop_zone_" + str(i)
         add_child(drop_zone)
         drop_zone.position = Vector2(0, radius).rotated(phi)
         drop_zone.category = category
