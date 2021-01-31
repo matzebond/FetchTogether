@@ -45,10 +45,6 @@ func _process(delta):
                 var drop_zone = get_closest_in(drop_zones_in_range)
                 if drop_zone:
                     drop_zone.rpc("receive_item", item.get_path())
-
-func teleport_to_spawn_pos():
-    position = spawn_pos
-    vel = Vector2.ZERO
     
 func _physics_process(delta):
 
@@ -218,4 +214,22 @@ func _on_playerDetector_body_entered(body):
     
 func get_center()->Vector2:
     return sprite_anim.global_position
+
+
+
+
+func teleport_to_spawn_pos():
+    enable_walk = false
+    vel = Vector2.ZERO
     
+    $TeleportationAnimationPlayer.play("teleport_start")
+    
+func _on_AnimationPlayer_animation_finished(anim_name):
+    if anim_name == "teleport_start":
+        $TeleportationTween.interpolate_property(self, "position", null, spawn_pos, 1.8, Tween.TRANS_CUBIC, Tween.EASE_IN_OUT)
+        $TeleportationTween.start()
+    if anim_name == "teleport_end":
+        enable_walk = true
+        
+func _on_TeleportationTween_tween_all_completed():
+    $TeleportationAnimationPlayer.play("teleport_end")
