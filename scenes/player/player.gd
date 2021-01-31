@@ -103,6 +103,8 @@ func _on_ItemPickup_area_exited(area):
         drop_zones_in_range.erase(area.get_parent())
     
 remotesync func pickup_item(item_path):
+    if !has_node(item_path): return
+    
     var item = get_node(item_path)
     if not item:
         print("Pickup: %s does not exist. Item is null" % str(item_path))
@@ -119,6 +121,8 @@ remotesync func pickup_item(item_path):
     item.position = Vector2(0, 0)
     
 remotesync func drop_item(item_path):
+    if !has_node(item_path): return
+    
     var item = get_node(item_path)
     if not item:
         print("Drop: %s does not exist. Item is null" % str(item_path))
