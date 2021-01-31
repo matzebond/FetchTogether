@@ -25,6 +25,8 @@ func addToMap(orientation, map:TileMap, nodeRoot:Node2D, pos:Vector2, id):
     door.position = pos * tileSize + door.position
     door.set_collision_mask_bit(id + 1, false)
     door.set_collision_layer_bit(id + 1, false)
+    var banner_image = load("res://assets/banner/" + str(id + 1) +"_banner.png")
+    door.get_node("banner").texture = banner_image
     
     # Transfer tiles
     for cell in tileMap.get_used_cells():
