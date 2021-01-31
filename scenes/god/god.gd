@@ -87,8 +87,9 @@ func _on_CategoryRevealTimer_timeout():
         for player in get_tree().get_nodes_in_group("player"):
             player.zoom_out_camera(false)
             set_players_enable_walk(true)
-            var ghost_ant = get_tree().get_nodes_in_group("ghost_ant")[0]    
-            ghost_ant.set_active(true)
+            
+        var ghost_ant = get_tree().get_nodes_in_group("ghost_ant")[0]    
+        ghost_ant.set_active(true)
             
         for ui in get_tree().get_nodes_in_group("ui"):
             ui.resetTime()
