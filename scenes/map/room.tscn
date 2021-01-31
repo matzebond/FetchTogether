@@ -1,8 +1,13 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://scenes/map/tileset.tres" type="TileSet" id=1]
 [ext_resource path="res://scenes/map/room.gd" type="Script" id=2]
 [ext_resource path="res://assets/items/dummy.png" type="Texture" id=3]
+[ext_resource path="res://scenes/map/furniture/FurnitureBed.tscn" type="PackedScene" id=4]
+[ext_resource path="res://scenes/map/furniture/FurnitureBookshelf.tscn" type="PackedScene" id=5]
+[ext_resource path="res://scenes/map/furniture/FurnitureChair.tscn" type="PackedScene" id=6]
+[ext_resource path="res://scenes/map/furniture/FurnitureBookshelfSide.tscn" type="PackedScene" id=7]
+[ext_resource path="res://scenes/map/furniture/FurnitureTable.tscn" type="PackedScene" id=8]
 
 [sub_resource type="TileSet" id=1]
 0/name = "dummy.png 0"
@@ -22,6 +27,7 @@
 
 [node name="Room" type="Node2D"]
 script = ExtResource( 2 )
+orientation = 0
 
 [node name="TileMapOriginal" type="TileMap" parent="."]
 visible = false
@@ -32,11 +38,151 @@ tile_data = PoolIntArray( -393215, 2, 0, -393214, 2, 1, -393213, 2, 1, -393212, 
 [node name="TileMapRotated" type="TileMap" parent="."]
 tile_set = ExtResource( 1 )
 format = 1
-tile_data = PoolIntArray( -393215, 2, 0, -393214, 2, 1, -393213, 2, 1, -393212, 2, 1, -393211, 2, 1, -393210, 2, 1, -393209, 2, 1, -393208, 2, 1, -393207, 2, 1, -393206, 2, 1, -393205, 2, 1, -393204, 2, 1, -393203, 2, 2, -327679, 2, 65536, -327678, 2, 65537, -327677, 2, 65537, -327676, 2, 65537, -327675, 2, 65537, -327674, 2, 65537, -327673, 2, 65537, -327672, 2, 65537, -327671, 2, 65537, -327670, 2, 65537, -327669, 2, 65537, -327668, 2, 65537, -327667, 2, 65538, -262143, 2, 65536, -262142, 2, 65537, -262141, 2, 65537, -262140, 2, 65537, -262139, 2, 65537, -262138, 2, 65537, -262137, 2, 65537, -262136, 2, 65537, -262135, 2, 65537, -262134, 2, 65537, -262133, 2, 65537, -262132, 2, 65537, -262131, 2, 65538, -196607, 2, 65536, -196606, 2, 65537, -196605, 2, 65537, -196604, 2, 65537, -196603, 2, 65537, -196602, 2, 65537, -196601, 2, 65537, -196600, 2, 65537, -196599, 2, 65537, -196598, 2, 65537, -196597, 2, 65537, -196596, 2, 65537, -196595, 2, 65538, -131072, 2, 0, -131071, 2, 65540, -131070, 2, 65537, -131069, 2, 65537, -131068, 2, 65537, -131067, 2, 65537, -131066, 2, 65537, -131065, 2, 65537, -131064, 2, 65537, -131063, 2, 65537, -131062, 2, 65537, -131061, 2, 65537, -131060, 2, 65537, -131059, 2, 65538, -65536, 2, 65536, -65535, 2, 65537, -65534, 2, 65537, -65533, 2, 65537, -65532, 2, 65537, -65531, 2, 65537, -65530, 2, 65537, -65529, 2, 65537, -65528, 2, 65537, -65527, 2, 65537, -65526, 2, 65537, -65525, 2, 65537, -65524, 2, 65537, -65523, 2, 65538, 0, 2, 65536, 1, 2, 65537, 2, 2, 65537, 3, 2, 65537, 4, 2, 65537, 5, 2, 65537, 6, 2, 65537, 7, 2, 65537, 8, 2, 65537, 9, 2, 65537, 10, 2, 65537, 11, 2, 65537, 12, 2, 65537, 13, 2, 65538, 65536, 2, 65536, 65537, 2, 65537, 65538, 2, 65537, 65539, 2, 65537, 65540, 2, 65537, 65541, 2, 65537, 65542, 2, 65537, 65543, 2, 65537, 65544, 2, 65537, 65545, 2, 65537, 65546, 2, 65537, 65547, 2, 65537, 65548, 2, 65537, 65549, 2, 65538, 131072, 2, 131072, 131073, 2, 4, 131074, 2, 65537, 131075, 2, 65537, 131076, 2, 65537, 131077, 2, 65537, 131078, 2, 65537, 131079, 2, 65537, 131080, 2, 65537, 131081, 2, 65537, 131082, 2, 65537, 131083, 2, 65537, 131084, 2, 65537, 131085, 2, 65538, 196609, 2, 65536, 196610, 2, 65537, 196611, 2, 65537, 196612, 2, 65537, 196613, 2, 65537, 196614, 2, 65537, 196615, 2, 65537, 196616, 2, 65537, 196617, 2, 65537, 196618, 2, 65537, 196619, 2, 65537, 196620, 2, 65537, 196621, 2, 65538, 262145, 2, 65536, 262146, 2, 65537, 262147, 2, 65537, 262148, 2, 65537, 262149, 2, 65537, 262150, 2, 65537, 262151, 2, 65537, 262152, 2, 65537, 262153, 2, 65537, 262154, 2, 65537, 262155, 2, 65537, 262156, 2, 65537, 262157, 2, 65538, 327681, 2, 65536, 327682, 2, 65537, 327683, 2, 65537, 327684, 2, 65537, 327685, 2, 65537, 327686, 2, 65537, 327687, 2, 65537, 327688, 2, 65537, 327689, 2, 65537, 327690, 2, 65537, 327691, 2, 65537, 327692, 2, 65537, 327693, 2, 65538, 393217, 2, 131072, 393218, 2, 131073, 393219, 2, 131073, 393220, 2, 131073, 393221, 2, 131073, 393222, 2, 131073, 393223, 2, 131073, 393224, 2, 131073, 393225, 2, 131073, 393226, 2, 131073, 393227, 2, 131073, 393228, 2, 131073, 393229, 2, 131074 )
+tile_data = PoolIntArray( 65534, 2, 0, 65535, 2, 1, 0, 2, 1, 1, 2, 1, 2, 2, 2, 131066, 2, 0, 131067, 2, 1, 131068, 2, 1, 131069, 2, 1, 131070, 2, 65540, 131071, 2, 65537, 65536, 2, 65537, 65537, 2, 65537, 65538, 2, 65539, 65539, 2, 1, 65540, 2, 1, 65541, 2, 1, 65542, 2, 2, 196602, 2, 65536, 196603, 2, 65537, 196604, 2, 65537, 196605, 2, 65537, 196606, 2, 65537, 196607, 2, 65537, 131072, 2, 65537, 131073, 2, 65537, 131074, 2, 65537, 131075, 2, 65537, 131076, 2, 65537, 131077, 2, 65537, 131078, 2, 65538, 262138, 2, 65536, 262139, 2, 65537, 262140, 2, 65537, 262141, 2, 65537, 262142, 2, 65537, 262143, 2, 65537, 196608, 2, 65537, 196609, 2, 65537, 196610, 2, 65537, 196611, 2, 65537, 196612, 2, 65537, 196613, 2, 65537, 196614, 2, 65538, 327674, 2, 65536, 327675, 2, 65537, 327676, 2, 65537, 327677, 2, 65537, 327678, 2, 65537, 327679, 2, 65537, 262144, 2, 65537, 262145, 2, 65537, 262146, 2, 65537, 262147, 2, 65537, 262148, 2, 65537, 262149, 2, 65537, 262150, 2, 65538, 393210, 2, 65536, 393211, 2, 65537, 393212, 2, 65537, 393213, 2, 65537, 393214, 2, 65537, 393215, 2, 65537, 327680, 2, 65537, 327681, 2, 65537, 327682, 2, 65537, 327683, 2, 65537, 327684, 2, 65537, 327685, 2, 65537, 327686, 2, 65538, 458746, 2, 65536, 458747, 2, 65537, 458748, 2, 65537, 458749, 2, 65537, 458750, 2, 65537, 458751, 2, 65537, 393216, 2, 65537, 393217, 2, 65537, 393218, 2, 65537, 393219, 2, 65537, 393220, 2, 65537, 393221, 2, 65537, 393222, 2, 65538, 524282, 2, 65536, 524283, 2, 65537, 524284, 2, 65537, 524285, 2, 65537, 524286, 2, 65537, 524287, 2, 65537, 458752, 2, 65537, 458753, 2, 65537, 458754, 2, 65537, 458755, 2, 65537, 458756, 2, 65537, 458757, 2, 65537, 458758, 2, 65538, 589818, 2, 65536, 589819, 2, 65537, 589820, 2, 65537, 589821, 2, 65537, 589822, 2, 65537, 589823, 2, 65537, 524288, 2, 65537, 524289, 2, 65537, 524290, 2, 65537, 524291, 2, 65537, 524292, 2, 65537, 524293, 2, 65537, 524294, 2, 65538, 655354, 2, 65536, 655355, 2, 65537, 655356, 2, 65537, 655357, 2, 65537, 655358, 2, 65537, 655359, 2, 65537, 589824, 2, 65537, 589825, 2, 65537, 589826, 2, 65537, 589827, 2, 65537, 589828, 2, 65537, 589829, 2, 65537, 589830, 2, 65538, 720890, 2, 65536, 720891, 2, 65537, 720892, 2, 65537, 720893, 2, 65537, 720894, 2, 65537, 720895, 2, 65537, 655360, 2, 65537, 655361, 2, 65537, 655362, 2, 65537, 655363, 2, 65537, 655364, 2, 65537, 655365, 2, 65537, 655366, 2, 65538, 786426, 2, 65536, 786427, 2, 65537, 786428, 2, 65537, 786429, 2, 65537, 786430, 2, 65537, 786431, 2, 65537, 720896, 2, 65537, 720897, 2, 65537, 720898, 2, 65537, 720899, 2, 65537, 720900, 2, 65537, 720901, 2, 65537, 720902, 2, 65538, 851962, 2, 65536, 851963, 2, 65537, 851964, 2, 65537, 851965, 2, 65537, 851966, 2, 65537, 851967, 2, 65537, 786432, 2, 65537, 786433, 2, 65537, 786434, 2, 65537, 786435, 2, 65537, 786436, 2, 65537, 786437, 2, 65537, 786438, 2, 65538, 917498, 2, 131072, 917499, 2, 131073, 917500, 2, 131073, 917501, 2, 131073, 917502, 2, 131073, 917503, 2, 131073, 851968, 2, 131073, 851969, 2, 131073, 851970, 2, 131073, 851971, 2, 131073, 851972, 2, 131073, 851973, 2, 131073, 851974, 2, 131074 )
 
 [node name="TileMapItemSpawnPoints" type="TileMap" parent="."]
+visible = false
 tile_set = SubResource( 1 )
 format = 1
-tile_data = PoolIntArray( -262134, 0, 0, -131062, 0, 0, 131082, 0, 0, 262154, 0, 0 )
+tile_data = PoolIntArray( -327678, 0, 0, -327670, 0, 0, -327668, 0, 0, -196601, 0, 0, -131060, 0, 0, 6, 0, 0, 196612, 0, 0, 262146, 0, 0, 262156, 0, 0, 327690, 0, 0 )
 
 [node name="Items" type="Node2D" parent="."]
+
+[node name="FurnitureN" type="Node2D" parent="."]
+
+[node name="FurnitureChair2" parent="FurnitureN" instance=ExtResource( 6 )]
+position = Vector2( 367, 812 )
+
+[node name="FurnitureTable2" parent="FurnitureN" instance=ExtResource( 8 )]
+position = Vector2( -6, 449 )
+
+[node name="FurnitureChair3" parent="FurnitureN/FurnitureTable2" instance=ExtResource( 6 )]
+position = Vector2( -88.643, -7.01124 )
+
+[node name="FurnitureChair2" parent="FurnitureN/FurnitureTable2" instance=ExtResource( 6 )]
+position = Vector2( 84, -6 )
+
+[node name="FurnitureChair4" parent="FurnitureN/FurnitureTable2" instance=ExtResource( 6 )]
+position = Vector2( 0, -82 )
+
+[node name="Furniture2" parent="FurnitureN" instance=ExtResource( 4 )]
+position = Vector2( 300, 654 )
+rotation = 1.5708
+
+[node name="FurnitureBookshelf4" parent="FurnitureN" instance=ExtResource( 5 )]
+position = Vector2( -300, 669 )
+
+[node name="FurnitureBookshelf5" parent="FurnitureN" instance=ExtResource( 5 )]
+position = Vector2( -172, 670 )
+
+[node name="FurnitureBookshelfSide3" parent="FurnitureN" instance=ExtResource( 7 )]
+position = Vector2( 384, 312 )
+flip_h = true
+
+[node name="FurnitureBookshelfSide4" parent="FurnitureN" instance=ExtResource( 7 )]
+position = Vector2( 22, 825 )
+flip_h = true
+
+[node name="FurnitureE" type="Node2D" parent="."]
+visible = false
+
+[node name="FurnitureChair" parent="FurnitureE" instance=ExtResource( 6 )]
+position = Vector2( 801, -256 )
+
+[node name="FurnitureTable" parent="FurnitureE" instance=ExtResource( 8 )]
+position = Vector2( 416, 80 )
+
+[node name="FurnitureChair3" parent="FurnitureE/FurnitureTable" instance=ExtResource( 6 )]
+position = Vector2( -88.643, -7.01124 )
+
+[node name="FurnitureChair2" parent="FurnitureE/FurnitureTable" instance=ExtResource( 6 )]
+position = Vector2( -6.10352e-05, 50 )
+
+[node name="FurnitureChair4" parent="FurnitureE/FurnitureTable" instance=ExtResource( 6 )]
+position = Vector2( 0, -82 )
+
+[node name="FurnitureBookshelf" parent="FurnitureE" instance=ExtResource( 5 )]
+position = Vector2( 304.083, -267.608 )
+
+[node name="Furniture" parent="FurnitureE" instance=ExtResource( 4 )]
+position = Vector2( 645.712, -225.826 )
+
+[node name="FurnitureBookshelf2" parent="FurnitureE" instance=ExtResource( 5 )]
+position = Vector2( 808, 229 )
+
+[node name="FurnitureBookshelfSide2" parent="FurnitureE" instance=ExtResource( 7 )]
+position = Vector2( 602, 242 )
+
+[node name="FurnitureBookshelfSide" parent="FurnitureE" instance=ExtResource( 7 )]
+position = Vector2( 601, 375 )
+
+[node name="FurnitureS" type="Node2D" parent="."]
+visible = false
+
+[node name="FurnitureChair3" parent="FurnitureS" instance=ExtResource( 6 )]
+position = Vector2( 394, -706 )
+
+[node name="FurnitureTable3" parent="FurnitureS" instance=ExtResource( 8 )]
+position = Vector2( 37, -282 )
+
+[node name="FurnitureChair3" parent="FurnitureS/FurnitureTable3" instance=ExtResource( 6 )]
+position = Vector2( -88.643, -7.01124 )
+
+[node name="FurnitureChair2" parent="FurnitureS/FurnitureTable3" instance=ExtResource( 6 )]
+position = Vector2( 84, -6 )
+
+[node name="FurnitureChair4" parent="FurnitureS/FurnitureTable3" instance=ExtResource( 6 )]
+position = Vector2( 0, 51 )
+
+[node name="Furniture3" parent="FurnitureS" instance=ExtResource( 4 )]
+position = Vector2( 301, -635 )
+rotation = 1.5708
+
+[node name="FurnitureBookshelf6" parent="FurnitureS" instance=ExtResource( 5 )]
+position = Vector2( -300, -430 )
+
+[node name="FurnitureBookshelf7" parent="FurnitureS" instance=ExtResource( 5 )]
+position = Vector2( -172, -429 )
+
+[node name="FurnitureBookshelfSide5" parent="FurnitureS" instance=ExtResource( 7 )]
+position = Vector2( 384, -85 )
+flip_h = true
+
+[node name="FurnitureBookshelfSide6" parent="FurnitureS" instance=ExtResource( 7 )]
+position = Vector2( 22, -628 )
+flip_h = true
+
+[node name="FurnitureW" type="Node2D" parent="."]
+visible = false
+
+[node name="FurnitureChair2" parent="FurnitureW" instance=ExtResource( 6 )]
+position = Vector2( -746, -256 )
+
+[node name="FurnitureTable2" parent="FurnitureW" instance=ExtResource( 8 )]
+position = Vector2( -361, 80 )
+
+[node name="FurnitureChair3" parent="FurnitureW/FurnitureTable2" instance=ExtResource( 6 )]
+position = Vector2( 85, -7.01124 )
+
+[node name="FurnitureChair2" parent="FurnitureW/FurnitureTable2" instance=ExtResource( 6 )]
+position = Vector2( -6.10352e-05, 50 )
+
+[node name="FurnitureChair4" parent="FurnitureW/FurnitureTable2" instance=ExtResource( 6 )]
+position = Vector2( 0, -82 )
+
+[node name="FurnitureBookshelf3" parent="FurnitureW" instance=ExtResource( 5 )]
+position = Vector2( -250, -267.608 )
+
+[node name="Furniture2" parent="FurnitureW" instance=ExtResource( 4 )]
+position = Vector2( -595, -225.826 )
+
+[node name="FurnitureBookshelf4" parent="FurnitureW" instance=ExtResource( 5 )]
+position = Vector2( -754, 229 )
+
+[node name="FurnitureBookshelfSide3" parent="FurnitureW" instance=ExtResource( 7 )]
+position = Vector2( -553, 242 )
+flip_h = true
+
+[node name="FurnitureBookshelfSide4" parent="FurnitureW" instance=ExtResource( 7 )]
+position = Vector2( -553, 375 )
+flip_h = true

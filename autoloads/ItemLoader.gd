@@ -1,3 +1,4 @@
+tool
 extends Node
 
 const ITEM_SCENE_PATH = "res://scenes/items/"

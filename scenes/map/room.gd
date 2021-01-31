@@ -7,6 +7,12 @@ enum Orientation {
 
 export(Orientation) var orientation = Orientation.E setget _set_orientation
 
+onready var orientation_to_furniture = {
+    Orientation.N : $FurnitureN,
+    Orientation.E : $FurnitureE,
+    Orientation.S : $FurnitureS,
+    Orientation.W : $FurnitureW    
+}
 
 func _ready():
     $TileMapOriginal.visible = false
@@ -52,20 +58,32 @@ func _set_orientation(v):
     else:
         print("Room: Could not spawn Items into room, there are none loaded")
     
+    for o in orientation_to_furniture.keys():
+        orientation_to_furniture[o].visible = orientation == o
+    
     mapRotated.update_bitmask_region()
 
-func addToMap(map:TileMap, itemRoot:Node2D, pos:Vector2):
+func addToMap(map:TileMap, nodeRoot:Node2D, pos:Vector2):
     var mapRotated:TileMap = $TileMapRotated
+    var tileSize = map.cell_size
+    
+    # Transfer tiles
     for cell in mapRotated.get_used_cells():
         map.set_cellv(pos + cell, mapRotated.get_cellv(cell))
     
-    var tileSize = map.cell_size
+    # Move items
     for item in $Items.get_children():
         #var itemPos = item.global_position
         $Items.remove_child(item)
-        itemRoot.add_child(item)
+        nodeRoot.add_child(item)
         item.position += pos * tileSize
         #item.global_position = itemPos
+        
+    # Move furniture
+    for furniture in orientation_to_furniture[orientation].get_children():
+        furniture.get_parent().remove_child(furniture)
+        nodeRoot.add_child(furniture)
+        furniture.position += pos * tileSize
         
 
 func rotate_map_pos(map_pos:Vector2, orientation):
