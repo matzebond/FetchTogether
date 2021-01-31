@@ -54,4 +54,7 @@ func play_score_animation():
         $AnimationPlayer.reset()
         
     $AnimationPlayer.play("show_score_won" if won else "show_score_lost")
-    
+
+func clear_and_free():
+    queue_free() # TODO animation
+        

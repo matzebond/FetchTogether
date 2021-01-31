@@ -5,9 +5,9 @@ const DropZone = preload("res://scenes/god/dropZone.tscn")
 var drop_zones = []
 
 func _ready():
-    call_deferred("after_ready")
+    call_deferred("start")
 
-func after_ready():
+func start():
     var num_players = get_tree().get_nodes_in_group("player").size()
 
     
@@ -36,6 +36,9 @@ func after_ready():
         phi += d_phi
         
     start_revealing_categories()
+    
+    for player in get_tree().get_nodes_in_group("player"):
+        player.zoom_out_camera()
         
 
 func _on_dropZone_item_changed():
@@ -74,7 +77,8 @@ func _on_CategoryRevealTimer_timeout():
     # Cancel on end, allow Players to walk
     if next_reveal_drop_zone_id >= drop_zones.size():
         $CategoryRevealTimer.stop()
-        set_players_enable_walk(true)
+        for player in get_tree().get_nodes_in_group("player"):
+            player.zoom_out_camera(false)
         return
     
     # First iteration is -1
@@ -91,12 +95,28 @@ func _on_ScoreShowTimer_timeout():
     # On first iteration
     if next_score_drop_zone_id == -1:
         $ScoreShowTimer.stop()
+        for player in get_tree().get_nodes_in_group("player"):
+            player.zoom_out_camera()
         $ScoreShowTimer.start(1.5)
+    # On second to last iteration
+    elif next_score_drop_zone_id == drop_zones.size():
+        pass # wait one 
     # On last iteration
-    elif next_score_drop_zone_id >= drop_zones.size():
+    elif next_score_drop_zone_id == drop_zones.size() + 1:
+        restart()
+        $ScoreShowTimer.stop()
+    # Shouldn't happen
+    elif next_score_drop_zone_id > drop_zones.size() + 1:
         $ScoreShowTimer.stop()
     # On iteration
     else:
         drop_zones[next_score_drop_zone_id].play_score_animation()
         
     next_score_drop_zone_id += 1
+
+func restart():
+    for drop_zone in drop_zones:
+        drop_zone.clear_and_free()
+    drop_zones = []
+    
+    start()
