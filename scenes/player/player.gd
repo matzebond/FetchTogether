@@ -4,6 +4,7 @@ onready var front_root = $frontRoot
 onready var sprite_anim = $spriteAnim
 onready var camera = $camera
 onready var world = get_node("/root/World")
+onready var tween:Tween = $Tween
 
 puppet var puppet_pos = Vector2()
 puppet var puppet_motion = Vector2()
@@ -57,20 +58,25 @@ func _physics_process(_delta):
         motion = puppet_motion
 
     var new_anim = null
+    var front_root_pos = front_root.position
     if motion.y < 0:
         new_anim = "walk_up"
-        front_root.position = Vector2(0, -70)
+        front_root_pos = Vector2(0, -70)
     elif motion.y > 0:
         new_anim = "walk_down"
-        front_root.position = Vector2(0, 70)
+        front_root_pos = Vector2(0, 70)
     elif motion.x < 0:
         new_anim = "walk_side"
-        front_root.position = Vector2(-70, 0)
+        front_root_pos = Vector2(-70, 0)
         sprite_anim.flip_h = false
     elif motion.x > 0:
         new_anim = "walk_side"
-        front_root.position = Vector2(70, 0)
+        front_root_pos = Vector2(70, 0)
         sprite_anim.flip_h = true
+        
+    if front_root_pos != front_root.position:
+        tween.interpolate_property(front_root, "position", null, front_root_pos, 0.2, Tween.TRANS_CUBIC, Tween.EASE_OUT)
+        tween.start()
 
     if new_anim and new_anim != current_anim:
         current_anim = new_anim
@@ -136,9 +142,12 @@ remotesync func pickup_item(item_path):
 
     current_item = item
     items_in_range.erase(item)
+    
+    var pos = item.global_position
     parent.remove_child(item)
     front_root.add_child(item)
-    item.position = Vector2(0, 0)
+    item.global_position = pos
+    item.tween_to(Vector2(0, 0), false)
     
 remotesync func drop_item(item_path, new_position):
     if !has_node(item_path): return
