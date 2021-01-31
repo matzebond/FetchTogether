@@ -54,4 +54,7 @@ func play_score_animation():
         $AnimationPlayer.reset()
         
     $AnimationPlayer.play("show_score_won" if won else "show_score_lost")
+    if won:
+        for ui in get_tree().get_nodes_in_group("ui"):
+            ui.addPoint()
     

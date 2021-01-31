@@ -10,7 +10,6 @@ func _ready():
 func after_ready():
     var num_players = get_tree().get_nodes_in_group("player").size()
 
-    
     var taken_categories = []
     var d_phi = 2 * PI / num_players
     var phi = 0
@@ -28,7 +27,6 @@ func after_ready():
         drop_zone.position = Vector2(0, radius).rotated(phi)
         drop_zone.category = category
         drop_zone.connect("item_changed", self, "_on_dropZone_item_changed")
-        
         
         drop_zones.append(drop_zone)
         
@@ -55,7 +53,6 @@ remotesync func end_level():
     # Start player teleportation
     for player in get_tree().get_nodes_in_group("player"):
         player.teleport_to_spawn_pos()
-    
     start_showing_score()
 
 func get_center()->Vector2:
@@ -69,23 +66,26 @@ var next_reveal_drop_zone_id
 func start_revealing_categories():
     next_reveal_drop_zone_id = -1
     $CategoryRevealTimer.start()
+
 func _on_CategoryRevealTimer_timeout():
     # Cancel on end, allow Players to walk
     if next_reveal_drop_zone_id >= drop_zones.size():
         $CategoryRevealTimer.stop()
         set_players_enable_walk(true)
+        for ui in get_tree().get_nodes_in_group("ui"):
+            ui.resetTime()
         return
     
     # First iteration is -1
     if next_reveal_drop_zone_id >= 0:
         drop_zones[next_reveal_drop_zone_id].play_category_reveal_animation()
-    
     next_reveal_drop_zone_id += 1
 
 var next_score_drop_zone_id
 func start_showing_score():
     next_score_drop_zone_id = -1
     $ScoreShowTimer.start(3.2)
+
 func _on_ScoreShowTimer_timeout():
     # On first iteration
     if next_score_drop_zone_id == -1:
@@ -97,5 +97,4 @@ func _on_ScoreShowTimer_timeout():
     # On iteration
     else:
         drop_zones[next_score_drop_zone_id].play_score_animation()
-        
     next_score_drop_zone_id += 1
