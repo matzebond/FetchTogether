@@ -14,4 +14,6 @@ __meta__ = {
 "_edit_lock_": true
 }
 
-[node name="ItemRoot" type="Node2D" parent="."]
+[node name="YSort" type="YSort" parent="." groups=[
+"ysort",
+]]

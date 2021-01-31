@@ -1,7 +1,7 @@
 extends KinematicBody2D
 
-onready var front_root = $frontRoot
-onready var sprite_anim = $spriteAnim
+onready var front_root = $YSort/frontRoot
+onready var sprite_anim = $YSort/spriteAnim
 onready var camera = $camera
 onready var world = get_node("/root/World")
 onready var tween:Tween = $Tween
@@ -61,17 +61,17 @@ func _physics_process(_delta):
     var front_root_pos = front_root.position
     if motion.y < 0:
         new_anim = "walk_up"
-        front_root_pos = Vector2(0, -70)
+        front_root_pos = Vector2(0, -88)
     elif motion.y > 0:
         new_anim = "walk_down"
-        front_root_pos = Vector2(0, 70)
+        front_root_pos = Vector2(0,52)
     elif motion.x < 0:
         new_anim = "walk_side"
-        front_root_pos = Vector2(-70, 0)
+        front_root_pos = Vector2(-70, -18)
         sprite_anim.flip_h = false
     elif motion.x > 0:
         new_anim = "walk_side"
-        front_root_pos = Vector2(70, 0)
+        front_root_pos = Vector2(70, -18)
         sprite_anim.flip_h = true
         
     if front_root_pos != front_root.position:
@@ -97,7 +97,7 @@ func set_player_name(new_name):
 var items_in_range = []
 var drop_zones_in_range = []
 func _on_ItemPickup_area_entered(area):
-    if area in get_tree().get_nodes_in_group("item"):
+    if area.get_parent() in get_tree().get_nodes_in_group("item"):
         items_in_range.append(area.get_parent())
         update_item_highlights()
     if area in get_tree().get_nodes_in_group("drop_zone"):
@@ -156,7 +156,7 @@ remotesync func drop_item(item_path, new_position):
     if not item:
         print("Drop: %s does not exist. Item is null" % str(item_path))
     front_root.remove_child(item)
-    world.add_child(item)
+    get_parent().add_child(item)
     current_item = null
     item.global_position = new_position
     

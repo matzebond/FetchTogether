@@ -7,6 +7,8 @@ const MAIN_ROOM_WIDTH_EXPAND_PER_SIDE_ROOMS = 2 # even!
 const Room = preload("res://scenes/map/room.tscn")
 export var player_num_debug = 8 setget _set_player_num_debug
 
+onready var ysort = $YSort
+
 func _ready():
     call_deferred("afterReady")
 
@@ -66,15 +68,18 @@ func afterReady():
         var room = Room.instance()
         room.orientation = roomInfo[1]
         add_child(room)
-        room.addToMap(map, $ItemRoot, roomInfo[0])
+        room.addToMap(map, ysort, roomInfo[0])
         room.queue_free()
     
     map.update_bitmask_region()
     
     var i = 0
-    for item in $ItemRoot.get_children():
-        item.name = "item_" + str(i)
-        i += 1
+    
+    var all_items = get_tree().get_nodes_in_group("item")
+    for item in ysort.get_children():
+        if item in all_items:
+            item.name = "item_" + str(i)
+            i += 1
         
     
     protoRoom.queue_free()

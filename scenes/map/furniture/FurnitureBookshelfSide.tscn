@@ -5,7 +5,7 @@
 
 [sub_resource type="RectangleShape2D" id=1]
 resource_local_to_scene = true
-extents = Vector2( 32, 82 )
+extents = Vector2( 28, 52 )
 
 [node name="FurnitureBookshelfSide" instance=ExtResource( 1 )]
 
@@ -14,5 +14,5 @@ position = Vector2( 0, -94 )
 texture = ExtResource( 2 )
 
 [node name="CollisionShape2D" parent="." index="1"]
-position = Vector2( 3, -97 )
+position = Vector2( 3, -83 )
 shape = SubResource( 1 )

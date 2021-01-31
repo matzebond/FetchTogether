@@ -4,6 +4,9 @@
 [ext_resource path="res://assets/char/player5.tres" type="SpriteFrames" id=2]
 [ext_resource path="res://assets/montserrat.otf" type="DynamicFontData" id=3]
 
+[sub_resource type="CircleShape2D" id=3]
+radius = 43.3705
+
 [sub_resource type="CapsuleShape2D" id=1]
 radius = 37.9132
 height = 39.067
@@ -12,31 +15,37 @@ height = 39.067
 size = 14
 font_data = ExtResource( 3 )
 
-[sub_resource type="CircleShape2D" id=3]
-radius = 43.3705
-
 [node name="player" type="KinematicBody2D"]
-z_index = 1
-z_as_relative = false
 script = ExtResource( 1 )
 
 [node name="Tween" type="Tween" parent="."]
 
-[node name="spriteAnim" type="AnimatedSprite" parent="."]
+[node name="YSort" type="YSort" parent="."]
+
+[node name="frontRoot" type="Node2D" parent="YSort"]
+
+[node name="ItemPickup" type="Area2D" parent="YSort/frontRoot"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="YSort/frontRoot/ItemPickup"]
+position = Vector2( 0, -50 )
+shape = SubResource( 3 )
+
+[node name="spriteAnim" type="AnimatedSprite" parent="YSort"]
+position = Vector2( 0, -40 )
 frames = ExtResource( 2 )
 animation = "walk_down"
 
 [node name="shape" type="CollisionShape2D" parent="." groups=[
 "player",
 ]]
-position = Vector2( -1.25989, -5.98462 )
+position = Vector2( 0, -50 )
 shape = SubResource( 1 )
 
 [node name="label" type="Label" parent="."]
 margin_left = -82.0
-margin_top = -83.0
+margin_top = -132.0
 margin_right = 85.0
-margin_bottom = -62.0
+margin_bottom = -111.0
 size_flags_horizontal = 2
 size_flags_vertical = 0
 custom_fonts/font = SubResource( 2 )
@@ -47,14 +56,6 @@ __meta__ = {
 }
 
 [node name="camera" type="Camera2D" parent="."]
-
-[node name="frontRoot" type="Node2D" parent="."]
-z_index = -1
-
-[node name="ItemPickup" type="Area2D" parent="frontRoot"]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="frontRoot/ItemPickup"]
-position = Vector2( 0, 0.31498 )
-shape = SubResource( 3 )
-[connection signal="area_entered" from="frontRoot/ItemPickup" to="." method="_on_ItemPickup_area_entered"]
-[connection signal="area_exited" from="frontRoot/ItemPickup" to="." method="_on_ItemPickup_area_exited"]
+position = Vector2( 0, -40 )
+[connection signal="area_entered" from="YSort/frontRoot/ItemPickup" to="." method="_on_ItemPickup_area_entered"]
+[connection signal="area_exited" from="YSort/frontRoot/ItemPickup" to="." method="_on_ItemPickup_area_exited"]
