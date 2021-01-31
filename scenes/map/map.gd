@@ -42,33 +42,31 @@ func afterReady():
     
     
     # Gather room info
-    var protoRoom = Room.instance()
     var rooms = []
     if playerNum >= 1:
-        rooms.append([Vector2(0, posStart.y-1), protoRoom.Orientation.S])
+        rooms.append([Vector2(0, posStart.y-1), G.Orientation.S])
     if playerNum >= 2:
-        rooms.append([Vector2(0, posStart.y+main_room_size.y), protoRoom.Orientation.N])
+        rooms.append([Vector2(0, posStart.y+main_room_size.y), G.Orientation.N])
     
     var yStart = -(roomsOnEachSide - 1) * ROOM_DST
     yStart = -main_room_size.y/2 + ROOM_DST/2 - 1
     for i in range(2, playerNum):
         var x = ceil(main_room_size.x / 2) 
-        var orientation = protoRoom.Orientation.E
+        var orientation = G.Orientation.E
         
         var y = floor((i - 2) / 2) * ROOM_DST
         
         if i % 2 == 1:
             x = -x
-            orientation = protoRoom.Orientation.W
+            orientation = G.Orientation.W
             
         rooms.append([Vector2(x, floor(yStart+y)), orientation])
 
     # Spawn new rooms
     for roomInfo in rooms:
         var room = Room.instance()
-        room.orientation = roomInfo[1]
         add_child(room)
-        room.addToMap(map, ysort, roomInfo[0])
+        room.addToMap(roomInfo[1], map, ysort, roomInfo[0])
         room.queue_free()
     
     map.update_bitmask_region()
@@ -80,9 +78,6 @@ func afterReady():
         if item in all_items:
             item.name = "item_" + str(i)
             i += 1
-        
-    
-    protoRoom.queue_free()
             
 func _set_player_num_debug(v):
     player_num_debug = v;
