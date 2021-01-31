@@ -9,7 +9,7 @@ const DEFAULT_PORT = 10567
 const USE_WEBSOCKET = true
 
 # Max number of players.
-const MAX_PEERS = 12
+const MAX_PEERS = 16
 
 var peer = null
 
