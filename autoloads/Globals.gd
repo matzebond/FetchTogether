@@ -17,7 +17,8 @@ enum ItemCategory {
     KidsLoveIt,
     Shiny,
     Fun,
-    MyFavorite    
+    MyFavorite,
+    Sport
 }
 
 const ItemCategoryProbabilities = [

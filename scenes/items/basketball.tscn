@@ -1,0 +1,49 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://scenes/items/item.tscn" type="PackedScene" id=1]
+[ext_resource path="res://assets/items/basketball.png" type="Texture" id=2]
+[ext_resource path="res://scenes/items/AnimationPlayerAutoStart.gd" type="Script" id=3]
+
+[sub_resource type="SpriteFrames" id=1]
+resource_local_to_scene = true
+animations = [ {
+"frames": [ ExtResource( 2 ) ],
+"loop": true,
+"name": "idle",
+"speed": 5.0
+} ]
+
+[sub_resource type="CircleShape2D" id=2]
+radius = 31.357
+
+[sub_resource type="Animation" id=3]
+resource_name = "anim"
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("animSprite:position:y")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.7, 1 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ -32.0, -54.0, -32.0 ]
+}
+
+[node name="Node2D" instance=ExtResource( 1 )]
+item_categories = [ 9, 7, 5 ]
+
+[node name="animSprite" parent="." index="0"]
+frames = SubResource( 1 )
+
+[node name="CollisionShape2D" parent="pickupArea" index="0"]
+shape = SubResource( 2 )
+
+[node name="ShaderAnimator" parent="." index="2"]
+blend_times = [ "pulse", "end", 0.2 ]
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." index="4"]
+anims/anim = SubResource( 3 )
+script = ExtResource( 3 )
